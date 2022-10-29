@@ -1,4 +1,4 @@
-package com.example.findaplant
+package com.fern.findaplant
 
 import org.junit.Test
 
