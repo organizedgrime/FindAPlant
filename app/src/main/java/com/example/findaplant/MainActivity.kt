@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.window.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.findaplant.databinding.ActivityMainBinding
+import com.fern.findaplant.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
