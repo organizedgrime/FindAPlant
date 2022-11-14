@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974273630266",
+    "project_id": "findaplant-bcd58",
+    "storage_bucket": "findaplant-bcd58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974273630266:android:34048132985b7b1da02503",
+        "android_client_info": {
+          "package_name": "com.fern.findaplant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974273630266-joruka7lc1q2fdfldn01eififufqhlk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvJmhkJ4jnRbeLwX0AmzPvhnwaXpYJuaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974273630266-joruka7lc1q2fdfldn01eififufqhlk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
