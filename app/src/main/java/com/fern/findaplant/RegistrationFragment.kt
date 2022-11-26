@@ -66,9 +66,7 @@ class RegistrationFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    findNavController().navigate(
-                        R.id.action_registrationFragment_to_dashboardFragment
-                    )
+                    //TODO: Navigate to the MainActivity
                 } else {
                     Toast.makeText(
                         requireContext(),

@@ -51,4 +51,5 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="firestore_name">name</string>
     <string name="firestore_user_data">User Data</string>
+    <string name="title_activity_no_auth">NoAuthActivity</string>
 </resources>

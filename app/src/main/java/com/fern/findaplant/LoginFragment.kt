@@ -63,9 +63,7 @@ class LoginFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    findNavController().navigate(
-                        R.id.action_loginFragment_to_dashboardFragment
-                    )
+                    //TODO: Navigate to the MainActivity
                 } else {
                     Toast.makeText(
                         requireContext(),

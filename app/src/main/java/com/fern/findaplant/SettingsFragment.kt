@@ -1,5 +1,6 @@
 package com.fern.findaplant
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +32,8 @@ class SettingsFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            //TODO: Return to the no auth fragment
-//            findNavController().popBackStack(R.id.noAuthFragment, false)
+            // Return to the No Auth Activity
+            startActivity(Intent(context, NoAuthActivity::class.java))
         }
 
         // Return the root view.
