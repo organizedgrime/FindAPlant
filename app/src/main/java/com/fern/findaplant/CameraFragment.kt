@@ -3,6 +3,7 @@ package com.fern.findaplant
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -35,8 +36,7 @@ class CameraFragment : Fragment() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
-    private lateinit var viewModel: CameraViewModel
-    private lateinit var viewBinding: FragmentCameraBinding
+    private lateinit var binding: FragmentCameraBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,8 +44,12 @@ class CameraFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = FragmentCameraBinding.inflate(layoutInflater)
-        return inflater.inflate(R.layout.fragment_camera, container, false)
+        binding = FragmentCameraBinding.inflate(layoutInflater)
+
+        binding.imageCaptureButton.setOnClickListener { takePhoto() }
+        binding.imageCaptureButton.setBackgroundColor(Color.TRANSPARENT)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,16 +61,14 @@ class CameraFragment : Fragment() {
         } else {
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS.toTypedArray(), REQUEST_CODE_PERMISSIONS)
         }
-
-        // Setup the listener for take photo button
-        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
-
 //        outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    private fun takePhoto() {}
+    private fun takePhoto() {
+        Log.i(TAG, "Taking a photo!!!")
+    }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
@@ -90,7 +92,7 @@ class CameraFragment : Fragment() {
                 camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
-                preview?.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
+                preview?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
