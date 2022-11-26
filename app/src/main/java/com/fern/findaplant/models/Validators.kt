@@ -1,4 +1,4 @@
-package com.fern.findaplant
+package com.fern.findaplant.models
 
 class Validators {
     fun validEmail(email: String?) : Boolean {

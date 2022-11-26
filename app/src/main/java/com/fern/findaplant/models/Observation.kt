@@ -1,4 +1,4 @@
-package com.fern.findaplant
+package com.fern.findaplant.models
 
 import com.google.firebase.Timestamp
 /**
