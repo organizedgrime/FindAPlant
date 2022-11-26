@@ -25,30 +25,18 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/menu_camera" />
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/image_capture_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_camera_24"
+            android:contentDescription="@string/menu_camera"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="24dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:background="@null"
-                android:src="@drawable/ic_baseline_camera_24"
-                android:contentDescription="@string/menu_camera" />
-
-            <Button
-                android:id="@+id/image_capture_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </Button>
-        </FrameLayout>
-
-
+            android:layout_marginBottom="24dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

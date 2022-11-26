@@ -47,7 +47,6 @@ class CameraFragment : Fragment() {
         binding = FragmentCameraBinding.inflate(layoutInflater)
 
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
-        binding.imageCaptureButton.setBackgroundColor(Color.TRANSPARENT)
 
         return binding.root
     }
