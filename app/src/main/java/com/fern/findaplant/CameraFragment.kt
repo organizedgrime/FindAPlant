@@ -1,30 +1,115 @@
 package com.fern.findaplant
 
-import androidx.lifecycle.ViewModelProvider
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.fern.findaplant.databinding.FragmentCameraBinding
+import com.google.firebase.installations.Utils
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CameraFragment()
-    }
+    private var preview: Preview? = null
+    private var imageCapture: ImageCapture? = null
+    private var imageAnalyzer: ImageAnalysis? = null
+    private var camera: Camera? = null
+
+    private lateinit var safeContext: Context
+
+    private lateinit var outputDirectory: File
+    private lateinit var cameraExecutor: ExecutorService
 
     private lateinit var viewModel: CameraViewModel
+    private lateinit var viewBinding: FragmentCameraBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        safeContext = context
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = FragmentCameraBinding.inflate(layoutInflater)
         return inflater.inflate(R.layout.fragment_camera, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CameraViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Request camera permissions
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS.toTypedArray(), REQUEST_CODE_PERMISSIONS)
+        }
+
+        // Setup the listener for take photo button
+        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
+
+//        outputDirectory = getOutputDirectory()
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+    }
+
+    private fun takePhoto() {}
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+        cameraProviderFuture.addListener(Runnable {
+            // Used to bind the lifecycle of cameras to the lifecycle owner
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Preview
+            preview = Preview.Builder().build()
+
+            imageCapture = ImageCapture.Builder().build()
+
+            // Select back camera as a default
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                camera = cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture
+                )
+                preview?.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+        }, ContextCompat.getMainExecutor(safeContext))
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
+    }
+
+    companion object {
+        private const val TAG = "CameraFragment"
+        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = listOf(Manifest.permission.CAMERA)
     }
 }
