@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var bottomNav : BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        val splashScreen = installSplashScreen()
@@ -24,41 +24,41 @@ class MainActivity : AppCompatActivity() {
 //            true
 //        }
 
-        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // By default, start the user off in the Camera Fragment
-        loadFragment(CameraFragment())
-        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
-        bottomNav.setOnItemReselectedListener {
+        // By default, start the user off in the Bookmarks fragment
+        loadFragment(BookmarkFragment())
+
+        binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.bookmarks -> {
                     loadFragment(BookmarkFragment())
-                    return@setOnItemReselectedListener
                 }
                 R.id.search -> {
                     loadFragment(SearchFragment())
-                    return@setOnItemReselectedListener
                 }
                 R.id.camera -> {
                     loadFragment(CameraFragment())
-                    return@setOnItemReselectedListener
                 }
                 R.id.explore -> {
                     loadFragment(ExploreFragment())
-                    return@setOnItemReselectedListener
                 }
                 R.id.settings -> {
                     loadFragment(SettingsFragment())
-                    return@setOnItemReselectedListener
+                }
+                else -> {
+                    false
                 }
             }
         }
     }
 
-    private fun loadFragment(fragment: Fragment){
+    private fun loadFragment(fragment: Fragment): Boolean {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+        return true
     }
 }

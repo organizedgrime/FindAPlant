@@ -27,5 +27,4 @@ class CameraFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(CameraViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }

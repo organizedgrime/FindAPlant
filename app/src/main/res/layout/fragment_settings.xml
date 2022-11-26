@@ -18,8 +18,4 @@
         android:layout_marginTop="8dp"
         android:text="@string/register_string"/>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
-        android:layout_width="11dp"
-        android:layout_height="0dp" />
 </FrameLayout>
