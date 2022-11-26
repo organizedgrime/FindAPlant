@@ -1,10 +1,12 @@
 package com.fern.findaplant
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fern.findaplant.databinding.ActivityNoAuthBinding
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class NoAuthActivity : AppCompatActivity() {
 
@@ -15,6 +17,12 @@ class NoAuthActivity : AppCompatActivity() {
 
         // Initialize the Firebase connectivity
         FirebaseApp.initializeApp(this)
+
+        // If the current Auth user exists
+        FirebaseAuth.getInstance().currentUser.let {
+            // Start the MainActivity
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         binding = ActivityNoAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)

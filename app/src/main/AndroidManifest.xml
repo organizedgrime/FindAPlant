@@ -24,7 +24,8 @@
         <activity
             android:name=".NoAuthActivity"
             android:exported="true"
-            android:label="@string/title_activity_no_auth">
+            android:label="@string/title_activity_no_auth"
+            android:theme="@style/Theme.FindAPlant">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,7 +36,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.FindAPlant">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

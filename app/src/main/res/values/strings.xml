@@ -45,4 +45,6 @@
     <string name="firestore_name">name</string>
     <string name="firestore_user_data">User Data</string>
     <string name="title_activity_no_auth">Not Logged In…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

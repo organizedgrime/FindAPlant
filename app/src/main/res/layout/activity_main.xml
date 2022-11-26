@@ -4,7 +4,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#ffffff"
 tools:context=".MainActivity">
 
     <FrameLayout
@@ -24,7 +23,6 @@ tools:context=".MainActivity">
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/nav_menu"
-        android:scrollIndicators="left"
-        android:background="@color/find_a_plant" />
+        android:scrollIndicators="left" />
 
 </RelativeLayout>

@@ -11,14 +11,12 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_string"
-        android:background="@color/green_600"/>
+        android:text="@string/login_string"/>
 
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/register_string"
-        android:background="@color/green_600"/>
+        android:text="@string/register_string"/>
 </LinearLayout>
