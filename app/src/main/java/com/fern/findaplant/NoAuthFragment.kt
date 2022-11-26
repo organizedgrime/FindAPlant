@@ -20,16 +20,17 @@ class NoAuthFragment : Fragment() {
         binding = FragmentNoAuthBinding.inflate(layoutInflater)
 
         binding.login.setOnClickListener {
-            Log.i(TAG, "navigating to registration")
+            Log.i(TAG, "navigating to login")
+            (activity as NoAuthActivity).loadFragment(LoginFragment())
         }
 
         binding.register.setOnClickListener {
             Log.i(TAG, "navigating to registration")
-
+            (activity as NoAuthActivity).loadFragment(RegistrationFragment())
         }
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_no_auth, container, false)
+        // Return root
+        return binding.root
     }
 
     companion object {

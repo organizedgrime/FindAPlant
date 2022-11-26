@@ -3,9 +3,7 @@ package com.fern.findaplant
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.fern.findaplant.databinding.ActivityMainBinding
-import com.google.firebase.FirebaseApp
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,8 +14,6 @@ class MainActivity : AppCompatActivity() {
 
         // Super on create
         super.onCreate(savedInstanceState)
-        // Initialize the Firebase connectivity
-        FirebaseApp.initializeApp(this)
 
         // Keep this code here for debugging the splash screen when need be
 //        splashScreen.setKeepOnScreenCondition() {

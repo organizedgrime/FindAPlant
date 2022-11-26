@@ -1,22 +1,20 @@
 package com.fern.findaplant
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.fern.findaplant.databinding.ActivityNoAuthBinding
+import com.google.firebase.FirebaseApp
 
 class NoAuthActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNoAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize the Firebase connectivity
+        FirebaseApp.initializeApp(this)
 
         binding = ActivityNoAuthBinding.inflate(layoutInflater)
 
@@ -26,7 +24,7 @@ class NoAuthActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun loadFragment(fragment: Fragment): Boolean {
+    fun loadFragment(fragment: Fragment): Boolean {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
