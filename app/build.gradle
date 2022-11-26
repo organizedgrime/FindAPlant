@@ -53,6 +53,8 @@ dependencies {
     implementation deps.lifecycle.viewmodel_ktx
     implementation deps.navigation.fragment_ktx
     implementation deps.navigation.ui_ktx
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     androidTestImplementation deps.junit
 
     implementation deps.firebase.auth

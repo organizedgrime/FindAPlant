@@ -22,7 +22,7 @@
              animated drawable. One of these is required. -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>
 
-<!--        <item name="windowSplashScreenIconBackgroundColor">@color/green_900</item>-->
+        <!--        <item name="windowSplashScreenIconBackgroundColor">@color/green_900</item>-->
         <!-- Required for animated icons -->
         <item name="windowSplashScreenAnimationDuration">200</item>
 
@@ -30,4 +30,13 @@
         <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.FindAPlant</item>
     </style>
+
+    <style name="NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

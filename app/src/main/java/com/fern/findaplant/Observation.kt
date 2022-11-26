@@ -1,7 +1,6 @@
 package com.fern.findaplant
 
 import com.google.firebase.Timestamp
-import java.time.LocalDateTime
 /**
  * @param id: Unique Observation ID
  * @param userID: Firebase Auth User ID for user who generated Observation
@@ -16,6 +15,15 @@ import java.time.LocalDateTime
 data class Observation(val id: Int, val userId: String, val description: String,
                        val species: String, val lat: Float, val long: Float,
                        val geoHash: String, val timestamp: Timestamp,
-                       val photoUrlArray: Array<String>)
+                       val photoUrlArray: Array<String>) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Observation
+        return id == other.id
+    }
+    override fun hashCode(): Int { return id }
+}
 
 // I'm not yet sure what the best way to handle photos is
