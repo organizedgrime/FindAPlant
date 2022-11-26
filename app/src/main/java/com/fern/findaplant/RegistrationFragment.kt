@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.fern.findaplant.databinding.FragmentRegistrationBinding
 import com.fern.findaplant.models.Validators
 import com.google.firebase.auth.FirebaseAuth
@@ -14,19 +13,19 @@ import com.google.firebase.auth.FirebaseAuth
 class RegistrationFragment : Fragment() {
     private var validator = Validators()
     private lateinit var auth: FirebaseAuth
-
-    /** Binding to XML layout */
     private lateinit var binding: FragmentRegistrationBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Use the provided ViewBinding class to inflate the layout.
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Extract the Auth instance
         auth = requireNotNull(FirebaseAuth.getInstance())
-
+        // Inflate the layout
+        binding = FragmentRegistrationBinding.inflate(layoutInflater)
+        // Assign the Registration function to the button
         binding.register.setOnClickListener { registerNewUser() }
-
-        // Return the root view.
+        // Return the root view
         return binding.root
     }
 
@@ -34,16 +33,16 @@ class RegistrationFragment : Fragment() {
         val email: String = binding.email.text.toString()
         val password: String = binding.password.text.toString()
 
+        // If the email is invalid
         if (!validator.validEmail(email)) {
             Toast.makeText(
                 requireContext(),
                 getString(R.string.invalid_email),
                 Toast.LENGTH_LONG
             ).show()
-
             return
         }
-
+        // If the password is invalid
         if (!validator.validPassword(password)) {
             Toast.makeText(
                 requireContext(),
@@ -54,6 +53,7 @@ class RegistrationFragment : Fragment() {
             return
         }
 
+        //
         binding.progressBar.visibility = View.VISIBLE
 
         auth.createUserWithEmailAndPassword(email, password)

@@ -9,10 +9,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="search_bar_placeholder_string">Search...</string>
+    <string name="search_bar_placeholder_string">Search…</string>
 
     <string name="logged_in_user_string">Now you are a logged in user of this app!</string>
     <string name="account_login_string">Account login</string>
@@ -25,7 +23,7 @@
     <string name="register_failed_string">Registration failed! Please try again later</string>
     <string name="invalid_password">Password must contain 8 characters with one letter and one number!</string>
     <string name="invalid_email">Please enter valid email…</string>
-    <string name="login_toast">Please enter email...</string>
+    <string name="login_toast">Please enter email…</string>
     <string name="password_toast">Please enter password!</string>
     <string name="logout">Logout</string>
     <string name="title_activity_camera">CameraActivity</string>
@@ -43,13 +41,8 @@
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Firestore Form -->
     <string name="firestore_name">name</string>
     <string name="firestore_user_data">User Data</string>
-    <string name="title_activity_no_auth">NoAuthActivity</string>
+    <string name="title_activity_no_auth">Not Logged In…</string>
 </resources>

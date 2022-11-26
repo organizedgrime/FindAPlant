@@ -24,8 +24,7 @@
         <activity
             android:name=".NoAuthActivity"
             android:exported="true"
-            android:label="@string/title_activity_no_auth"
-            android:theme="@style/NoActionBar">
+            android:label="@string/title_activity_no_auth">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -13,23 +13,20 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
-
-    /** Binding to XML layout */
     private lateinit var binding: FragmentLoginBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Use the provided ViewBinding class to inflate the layout.
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        // Extract the Auth instance
         firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
-
+        // Inflate the layout
+        binding = FragmentLoginBinding.inflate(layoutInflater)
+        // Assign Login function to the button
         binding.login.setOnClickListener { loginUserAccount() }
-
-        // Return the root view.
+        // Return the root view
         return binding.root
     }
 
-
+    // Function for logging into existing Auth account
     private fun loginUserAccount() {
         val email: String = binding.email.text.toString()
         val password: String = binding.password.text.toString()

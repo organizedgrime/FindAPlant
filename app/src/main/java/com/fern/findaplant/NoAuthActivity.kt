@@ -17,11 +17,10 @@ class NoAuthActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
         binding = ActivityNoAuthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Start in the No Auth Fragment- from which we can login or register
         loadFragment(NoAuthFragment())
-
-        setContentView(binding.root)
     }
 
     fun loadFragment(fragment: Fragment): Boolean {

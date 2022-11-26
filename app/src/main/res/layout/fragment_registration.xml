@@ -23,7 +23,6 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:autofillHints="email"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true" />
@@ -41,7 +40,6 @@
             android:layout_height="wrap_content"
             android:autofillHints="password"
             android:imeOptions="actionDone"
-            android:background="@color/white"
             android:inputType="textPassword"
             android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
