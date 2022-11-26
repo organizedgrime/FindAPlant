@@ -6,16 +6,9 @@
     tools:context=".CameraFragment">
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_string"/>
-
-    <Button
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/register_string"/>
+        android:text="@string/logout" />
 
 </FrameLayout>

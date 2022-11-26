@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceFragmentCompat
 import com.fern.findaplant.databinding.FragmentSettingsBinding
+import com.google.firebase.auth.FirebaseAuth
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -17,22 +19,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // Use the provided ViewBinding class to inflate the layout.
         val binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        binding.login.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_mainFragment_to_loginFragment
-            )
-        }
+        // When the logout button is clicked
+        binding.logout.setOnClickListener {
+            // Get the instance of Firestore Auth, sign out of it
+            FirebaseAuth.getInstance().signOut()
 
-        binding.register.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_mainFragment_to_registrationFragment
-            )
+            // Provide a Toast message indicating logout was successful
+            Toast.makeText(
+                requireContext(),
+                "You are now logged out!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            //TODO: Return to the no auth fragment
+//            findNavController().popBackStack(R.id.noAuthFragment, false)
         }
 
         // Return the root view.
         return binding.root
-    }
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.root_preferences, rootKey)
     }
 }
