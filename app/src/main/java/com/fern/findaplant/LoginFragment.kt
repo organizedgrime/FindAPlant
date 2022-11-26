@@ -1,5 +1,6 @@
 package com.fern.findaplant
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -60,7 +61,8 @@ class LoginFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    //TODO: Navigate to the MainActivity
+                    // Navigate to the MainActivity
+                    startActivity(Intent(context, MainActivity::class.java))
                 } else {
                     Toast.makeText(
                         requireContext(),

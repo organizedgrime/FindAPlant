@@ -1,5 +1,6 @@
 package com.fern.findaplant
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,8 @@ class RegistrationFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    //TODO: Navigate to the MainActivity
+                    // Navigate to the MainActivity
+                    startActivity(Intent(context, MainActivity::class.java))
                 } else {
                     Toast.makeText(
                         requireContext(),
