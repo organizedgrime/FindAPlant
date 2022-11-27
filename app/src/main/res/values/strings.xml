@@ -53,5 +53,5 @@
     <string name="firestore_photo">Profile Picture</string>
     <string name="username_hint_string">Username</string>
     <string name="alt_observation_image">Observation Image</string>
-    <string name="firestore_update">Save Data</string>
+    <string name="firestore_save_data">Save Data</string>
 </resources>

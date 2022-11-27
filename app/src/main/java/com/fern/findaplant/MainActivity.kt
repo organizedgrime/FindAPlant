@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(ExploreFragment())
                 }
                 R.id.settings -> {
-                    loadFragment(SettingsFragment())
+                    loadFragment(FirestoreFragment())
                 }
                 else -> {
                     false

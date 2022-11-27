@@ -7,14 +7,13 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".FirestoreFragment">
+    tools:context=".CameraFragment">
 
     <ImageView
+        android:id="@+id/profilePicture"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        android:contentDescription="@string/firestore_photo"
-        app:tint="@color/green_900" />
+        android:contentDescription="@string/firestore_photo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
         android:importantForAutofill="no" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/username_hint_string"
@@ -38,9 +37,21 @@
         android:importantForAutofill="no" />
 
     <Button
-        android:id="@+id/finish"
+        android:id="@+id/saveData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/finish_string" />
+        android:text="@string/firestore_save_data" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout" />
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout" />
 
 </LinearLayout>
