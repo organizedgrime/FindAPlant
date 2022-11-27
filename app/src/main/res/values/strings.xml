@@ -29,8 +29,8 @@
     <string name="title_activity_camera">CameraActivity</string>
     <!--  Nav Menu  -->
     <string name="menu_bookmark">Bookmarks</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_camera">Camera</string>
+    <string name="menu_search">Learn</string>
+    <string name="menu_camera">Capture</string>
     <string name="menu_explore">Explore</string>
     <string name="menu_setting">Settings</string>
     <!-- Preference Titles -->
