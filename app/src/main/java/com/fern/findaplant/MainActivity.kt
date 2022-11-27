@@ -31,14 +31,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.bookmarks -> {
                     loadFragment(BookmarkFragment())
                 }
-                R.id.search -> {
-                    loadFragment(SearchFragment())
+                R.id.observations -> {
+                    loadFragment(ObservationsFragment())
                 }
                 R.id.camera -> {
                     loadFragment(CameraFragment())
                 }
-                R.id.explore -> {
-                    loadFragment(ExploreFragment())
+                R.id.search -> {
+                    loadFragment(SearchFragment())
                 }
                 R.id.settings -> {
                     loadFragment(FirestoreFragment())

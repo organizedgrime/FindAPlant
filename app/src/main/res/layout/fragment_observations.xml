@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExploreFragment">
+    tools:context=".ObservationsFragment"
+    android:padding="10dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- Main Observations recycler -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerObservations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_observation" />
 
 </RelativeLayout>

@@ -31,7 +31,7 @@
     <string name="menu_bookmark">Bookmarks</string>
     <string name="menu_search">Learn</string>
     <string name="menu_camera">Capture</string>
-    <string name="menu_explore">Explore</string>
+    <string name="menu_observations">Observations</string>
     <string name="menu_setting">Settings</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -44,6 +44,7 @@
     <!-- Firestore Form -->
     <string name="firestore_name">name</string>
     <string name="firestore_user_data">User Data</string>
+    <string name="firestore_save_data">Save Data</string>
     <string name="title_activity_no_auth">Find A Plant</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -53,5 +54,4 @@
     <string name="firestore_photo">Profile Picture</string>
     <string name="username_hint_string">Username</string>
     <string name="alt_observation_image">Observation Image</string>
-    <string name="firestore_save_data">Save Data</string>
 </resources>
