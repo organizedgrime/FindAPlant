@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -40,14 +41,12 @@ class BookmarkFragment : Fragment(),
         // Firestore
         firestore = Firebase.firestore
 
-        // Get ${LIMIT} restaurants
+        // Set the query to be a call to our observations collection
         query = firestore
-            .collection("users")
-            .document(firebaseAuth.uid.toString())
-            .collection("bookmarks")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .collection("observations")
+            //TODO: Add filtering to ensure that they are in our list of bookmarks
 
-        // RecyclerView
+        // Adapter for RecyclerView
         adapter = object : ObservationAdapter(query, this@BookmarkFragment) {
             override fun onDataChanged() {
                 // If there are no bookmarks
@@ -67,9 +66,26 @@ class BookmarkFragment : Fragment(),
             }
         }
 
+        // Attach the Adapter and LayoutManager
+        binding.recyclerObservations.layoutManager = LinearLayoutManager(context)
+        binding.recyclerObservations.adapter = adapter
+
         // Return root
         return binding.root
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Start listening for Firestore updates
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
+
 
     override fun onObservationSelected(observation: DocumentSnapshot) {
         Log.i(TAG, "Selection made")

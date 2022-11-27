@@ -2,6 +2,7 @@ package com.fern.findaplant.models
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.IgnoreExtraProperties
 
@@ -16,12 +17,13 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class Observation(
     @DocumentId
-    val id: String,
-    val description: String,
-    val commonName: String,
-    val scientificName: String,
-    val coordinate: GeoPoint,
-    val timestamp: Timestamp,
+    val id: String? = null,
+    val description: String? = null,
+    val commonName: String? = null,
+    val scientificName: String? = null,
+    val coordinate: GeoPoint = GeoPoint(0.0, 0.0),
+    val timestamp: Timestamp = Timestamp.now(),
+    val observer: DocumentReference? = null,
     var photo: String? = null,
 ) {
     companion object {
@@ -30,5 +32,6 @@ data class Observation(
         const val FIELD_SCIENTIFIC_NAME = "scientificName"
         const val FIELD_COORDINATE = "coordinate"
         const val FIELD_TIMESTAMP = "timestamp"
+        const val FIELD_OBSERVER = "observer"
     }
 }

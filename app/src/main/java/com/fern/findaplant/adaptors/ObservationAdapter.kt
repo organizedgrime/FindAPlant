@@ -34,9 +34,6 @@ open class ObservationAdapter(query: Query, private val listener: OnObservationS
             // Cast the snapshot to an Observation object, return if fail
             val observation = snapshot.toObject<Observation>() ?: return
 
-            //
-            val resources = binding.root.resources
-
             // Load image from object
             Glide.with(binding.observationItemImage.context)
                 .load(observation.photo)
@@ -47,7 +44,7 @@ open class ObservationAdapter(query: Query, private val listener: OnObservationS
             // Scientific Name String
             binding.observationItemScientificName.text = observation.scientificName
             // Date String
-            binding.observationItemDate.text = observation.timestamp.toString()
+            binding.observationItemDate.text = observation.timestamp.toDate().toString()
 
             // Click listener
             binding.root.setOnClickListener {

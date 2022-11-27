@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookmarkFragment">
+    tools:context=".BookmarkFragment"
+    android:padding="10dp">
 
     <!-- Main Observations recycler -->
     <androidx.recyclerview.widget.RecyclerView

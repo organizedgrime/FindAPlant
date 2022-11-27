@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@color/green_100"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -14,10 +14,9 @@
         android:layout_height="60dp"
         android:background="#757575"
         android:scaleType="centerCrop"
-        android:src="@drawable/app_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Observation Image" />
+        android:contentDescription="@string/alt_observation_image" />
 
     <TextView
         android:id="@+id/observationItemCommonName"
@@ -53,5 +52,14 @@
         app:layout_constraintVertical_bias="0.508"
         tools:text="Date" />
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_bookmark_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/green_900"
+        android:contentDescription="@string/menu_bookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
