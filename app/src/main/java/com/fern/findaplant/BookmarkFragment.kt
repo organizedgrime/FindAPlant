@@ -2,11 +2,12 @@ package com.fern.findaplant
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+
 
 class BookmarkFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener {
@@ -67,8 +69,16 @@ class BookmarkFragment : Fragment(),
         }
 
         // Attach the Adapter and LayoutManager
-        binding.recyclerObservations.layoutManager = LinearLayoutManager(context)
+        val manager = LinearLayoutManager(context)
+        binding.recyclerObservations.layoutManager = manager
         binding.recyclerObservations.adapter = adapter
+
+        val dividerItemDecoration = DividerItemDecoration(
+            binding.recyclerObservations.context,
+            manager.orientation
+        )
+        // Add the item decorator
+        binding.recyclerObservations.addItemDecoration(dividerItemDecoration)
 
         // Return root
         return binding.root

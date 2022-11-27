@@ -24,7 +24,7 @@ data class Observation(
     val coordinate: GeoPoint = GeoPoint(0.0, 0.0),
     val timestamp: Timestamp = Timestamp.now(),
     val observer: DocumentReference? = null,
-    var photo: String? = null,
+    var photos: List<String> = emptyList(),
 ) {
     companion object {
         const val FIELD_DESCRIPTION = "description"
