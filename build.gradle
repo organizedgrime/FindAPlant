@@ -8,8 +8,6 @@ buildscript {
     }
 
     dependencies {
-        // in a buildscript block and not in plugins block.
-//        classpath deps.navigation.safe_args_plugin
         classpath 'com.google.gms:google-services:4.3.14'
     }
 }

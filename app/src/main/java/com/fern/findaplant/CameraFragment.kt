@@ -45,19 +45,21 @@ class CameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCameraBinding.inflate(layoutInflater)
-
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Request camera permissions
+        // If permissions are already granted
         if (allPermissionsGranted()) {
+            // Start the Camera
             startCamera()
-        } else {
+        }
+        // Otherwise
+        else {
+            // Request required permissions
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 REQUIRED_PERMISSIONS.toTypedArray(),
@@ -65,10 +67,12 @@ class CameraFragment : Fragment() {
             )
         }
 
+        // Initialize the output directory and the Camera Executor
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
+    // Determine an output directory for a new Photo
     private fun getOutputDirectory(): File {
         val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
@@ -116,27 +120,25 @@ class CameraFragment : Fragment() {
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
-            // Preview
+            // Build the Preview
             preview = Preview.Builder().build()
-
             // Build the Image Capture
             imageCapture = ImageCapture.Builder().build()
-
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
+            // Attempt to set up camera
             try {
                 // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
-
                 // Bind use cases to camera
                 camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
                 preview?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             }
+            // If something went wrong
             catch (exc: Exception) {
+                // Log the error
                 Log.e(TAG, "Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(safeContext))

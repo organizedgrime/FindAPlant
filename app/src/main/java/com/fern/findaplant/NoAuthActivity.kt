@@ -18,17 +18,17 @@ class NoAuthActivity : AppCompatActivity() {
         // Initialize the Firebase connectivity
         FirebaseApp.initializeApp(this)
 
-        // If the current Auth user exists
-        FirebaseAuth.getInstance().currentUser.let {
-            // Start the MainActivity
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-
         binding = ActivityNoAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Start in the No Auth Fragment- from which we can login or register
         loadFragment(NoAuthFragment())
+
+        // If the current Auth user exists
+        FirebaseAuth.getInstance().currentUser.let {
+            // Install the Firestore Fragment if there is still Auth
+            loadFragment(FirestoreFragment())
+        }
     }
 
     fun loadFragment(fragment: Fragment): Boolean {

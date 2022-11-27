@@ -67,8 +67,8 @@ class RegistrationFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
 
-                    // Navigate to the MainActivity
-                    startActivity(Intent(context, MainActivity::class.java))
+                    // Navigate to the Firestore Fragment
+                    (context as NoAuthActivity).loadFragment(FirestoreFragment())
                 } else {
                     Toast.makeText(
                         requireContext(),
