@@ -25,18 +25,33 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/menu_camera" />
 
+
         <ImageView
             android:id="@+id/image_capture_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="fitXY"
             android:background="@null"
+            android:layout_marginBottom="24dp"
             android:src="@drawable/ic_baseline_camera_24"
             android:contentDescription="@string/menu_camera"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="24dp"/>
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/camera_flip_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_flip_camera_android_24"
+            android:layout_marginBottom="29dp"
+            android:layout_marginLeft="24dp"
+            android:contentDescription="@string/menu_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_capture_button"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

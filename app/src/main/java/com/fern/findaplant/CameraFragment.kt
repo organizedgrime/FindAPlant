@@ -27,6 +27,7 @@ class CameraFragment : Fragment() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var camera: Camera? = null
+    private lateinit var cameraSelector: CameraSelector
 
     private lateinit var safeContext: Context
 
@@ -46,6 +47,7 @@ class CameraFragment : Fragment() {
     ): View {
         binding = FragmentCameraBinding.inflate(layoutInflater)
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
+        binding.cameraFlipButton.setOnClickListener { flipCamera() }
         return binding.root
     }
 
@@ -54,6 +56,8 @@ class CameraFragment : Fragment() {
 
         // If permissions are already granted
         if (allPermissionsGranted()) {
+            // Set default Camera state
+            cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             // Start the Camera
             startCamera()
         }
@@ -114,6 +118,20 @@ class CameraFragment : Fragment() {
         )
     }
 
+    // Change between front and back Camera
+    private fun flipCamera() {
+        Log.i(TAG, "Flipping camera!")
+        // Update CameraSelector
+        cameraSelector =
+            if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+                CameraSelector.DEFAULT_FRONT_CAMERA
+            } else {
+                CameraSelector.DEFAULT_BACK_CAMERA
+            }
+        // Restart the Camera
+        startCamera()
+    }
+
     // Initialize Camera hardware
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
@@ -124,8 +142,6 @@ class CameraFragment : Fragment() {
             preview = Preview.Builder().build()
             // Build the Image Capture
             imageCapture = ImageCapture.Builder().build()
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             // Attempt to set up camera
             try {
                 // Unbind use cases before rebinding
