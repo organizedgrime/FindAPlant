@@ -44,7 +44,7 @@
     <!-- Firestore Form -->
     <string name="firestore_name">name</string>
     <string name="firestore_user_data">User Data</string>
-    <string name="title_activity_no_auth">Not Logged In…</string>
+    <string name="title_activity_no_auth">Find A Plant</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_hint_string">Name</string>
@@ -53,4 +53,5 @@
     <string name="firestore_photo">Profile Picture</string>
     <string name="username_hint_string">Username</string>
     <string name="alt_observation_image">Observation Image</string>
+    <string name="firestore_update">Save Data</string>
 </resources>

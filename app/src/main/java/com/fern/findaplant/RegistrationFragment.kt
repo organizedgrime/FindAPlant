@@ -10,18 +10,17 @@ import androidx.fragment.app.Fragment
 import com.fern.findaplant.databinding.FragmentRegistrationBinding
 import com.fern.findaplant.models.Validators
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {
     private var validator = Validators()
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentRegistrationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Extract the Auth instance
-        auth = requireNotNull(FirebaseAuth.getInstance())
         // Inflate the layout
         binding = FragmentRegistrationBinding.inflate(layoutInflater)
         // Assign the Registration function to the button
@@ -57,7 +56,7 @@ class RegistrationFragment : Fragment() {
         //
         binding.progressBar.visibility = View.VISIBLE
 
-        auth.createUserWithEmailAndPassword(email, password)
+        Firebase.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {

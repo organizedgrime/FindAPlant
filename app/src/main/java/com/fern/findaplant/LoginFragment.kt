@@ -3,6 +3,7 @@ package com.fern.findaplant
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fern.findaplant.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment() {
-    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Extract the Auth instance
-        firebaseAuth = requireNotNull(FirebaseAuth.getInstance())
         // Inflate the layout
         binding = FragmentLoginBinding.inflate(layoutInflater)
         // Assign Login function to the button
@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
 
         binding.progressBar.visibility = View.VISIBLE
 
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {
@@ -62,6 +62,7 @@ class LoginFragment : Fragment() {
                     ).show()
 
                     // Navigate to the Firestore Fragment
+                    Log.i(TAG, "Launching FirestoreFragment from LoginFragment")
                     (context as NoAuthActivity).loadFragment(FirestoreFragment())
                 } else {
                     Toast.makeText(
@@ -71,5 +72,9 @@ class LoginFragment : Fragment() {
                     ).show()
                 }
             }
+    }
+
+    companion object {
+        const val TAG = "LoginFragment"
     }
 }

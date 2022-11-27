@@ -19,7 +19,9 @@ class FirestoreFragment : Fragment() {
         binding = FragmentFirestoreBinding.inflate(layoutInflater)
 
         // Simply navigate to Main Activity
-        startActivity(Intent(context, MainActivity::class.java))
+        val intent = Intent(context, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
 
         // Force unwrap UID, since we must already be authenticated to be here
         // If a user exists at this UID
