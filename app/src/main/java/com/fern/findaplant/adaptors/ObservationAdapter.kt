@@ -10,8 +10,8 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
-open class ObservationsAdapter(query: Query, private val listener: OnObservationSelectedListener) :
-    FirestoreAdapter<ObservationsAdapter.ViewHolder>(query) {
+open class ObservationAdapter(query: Query, private val listener: OnObservationSelectedListener) :
+    FirestoreAdapter<ObservationAdapter.ViewHolder>(query) {
 
     interface OnObservationSelectedListener {
         fun onObservationSelected(observation: DocumentSnapshot)

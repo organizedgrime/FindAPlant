@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".BookmarkFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Main Observations recycler -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerObservations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello from bookmarks" />
+        tools:listitem="@layout/item_observation" />
 
 </FrameLayout>
