@@ -64,10 +64,10 @@ class ObservationsFragment : Fragment(),
     }
 
     private fun loadAdapter(user: User, query: Query) {
-        // Adapter for RecyclerView
+        // Create Adapter for RecyclerView
         adapter = object : ObservationAdapter(user, query, this@ObservationsFragment) {
             override fun onDataChanged() {
-                // If there are no bookmarks
+                // If there are no Observations
                 if (itemCount == 0) {
                     binding.recyclerObservations.visibility = View.GONE
                 } else {
@@ -84,17 +84,8 @@ class ObservationsFragment : Fragment(),
             }
         }
 
-        // Attach the Adapter and LayoutManager
-        val manager = LinearLayoutManager(context)
-        binding.recyclerObservations.layoutManager = manager
+        // Attach the Adapter
         binding.recyclerObservations.adapter = adapter
-
-        val dividerItemDecoration = DividerItemDecoration(
-            binding.recyclerObservations.context,
-            manager.orientation
-        )
-        // Add the item decorator
-        binding.recyclerObservations.addItemDecoration(dividerItemDecoration)
     }
 
     override fun onObservationSelected(observation: DocumentSnapshot) {

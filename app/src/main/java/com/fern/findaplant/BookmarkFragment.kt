@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout.HORIZONTAL
+import android.widget.LinearLayout.VERTICAL
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -57,7 +59,7 @@ class BookmarkFragment : Fragment(),
     }
 
     private fun loadAdapter(user: User, query: Query) {
-        // Adapter for RecyclerView
+        // Create Adapter for RecyclerView
         adapter = object : ObservationAdapter(user, query, this@BookmarkFragment) {
             override fun onDataChanged() {
                 // If there are no bookmarks
@@ -76,18 +78,8 @@ class BookmarkFragment : Fragment(),
                 ).show()
             }
         }
-
-        // Attach the Adapter and LayoutManager
-        val manager = LinearLayoutManager(context)
-        binding.recyclerObservations.layoutManager = manager
+        // Attach the Adapter
         binding.recyclerObservations.adapter = adapter
-
-        val dividerItemDecoration = DividerItemDecoration(
-            binding.recyclerObservations.context,
-            manager.orientation
-        )
-        // Add the item decorator
-        binding.recyclerObservations.addItemDecoration(dividerItemDecoration)
     }
 
     override fun onObservationSelected(observation: DocumentSnapshot) {
