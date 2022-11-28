@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
 import com.fern.findaplant.databinding.FragmentObservationsBinding
+import com.fern.findaplant.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -49,7 +50,7 @@ class ObservationsFragment : Fragment(),
         //TODO: Add filtering to ensure that they are in our list of bookmarks
 
         // Adapter for RecyclerView
-        adapter = object : ObservationAdapter(query, this@ObservationsFragment) {
+        adapter = object : ObservationAdapter(User(), query, this@ObservationsFragment) {
             override fun onDataChanged() {
                 // If there are no bookmarks
                 if (itemCount == 0) {

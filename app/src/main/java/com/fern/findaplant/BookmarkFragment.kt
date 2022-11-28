@@ -61,16 +61,16 @@ class BookmarkFragment : Fragment(),
                 val query = Firebase.firestore.collection("observations")
                     .whereIn(FieldPath.documentId(), bookmarkIDs)
                 // Load the adapter using this query
-                loadAdapter(query)
+                loadAdapter(user, query)
                 // Start listening for Firestore updates
                 adapter.startListening()
             }
         }
     }
 
-    private fun loadAdapter(query: Query) {
+    private fun loadAdapter(user: User, query: Query) {
         // Adapter for RecyclerView
-        adapter = object : ObservationAdapter(query, this@BookmarkFragment) {
+        adapter = object : ObservationAdapter(user, query, this@BookmarkFragment) {
             override fun onDataChanged() {
                 // If there are no bookmarks
                 if (itemCount == 0) {

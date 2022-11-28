@@ -1,5 +1,6 @@
 package com.fern.findaplant.adaptors
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,24 +17,34 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-open class ObservationAdapter(query: Query, private val listener: OnObservationSelectedListener) :
+open class ObservationAdapter(_user: User, query: Query, private val listener: OnObservationSelectedListener) :
     FirestoreAdapter<ObservationAdapter.ViewHolder>(query) {
+    private var user: User
+
+    init {
+        user = _user
+    }
 
     interface OnObservationSelectedListener {
         fun onObservationSelected(observation: DocumentSnapshot)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemObservationBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+        // Create an Observation binding from the ViewGroup
+        val binding = ItemObservationBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return ViewHolder(binding, user)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getSnapshot(position), listener)
     }
 
-    class ViewHolder(private val binding: ItemObservationBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemObservationBinding, private val user: User):
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(
             snapshot: DocumentSnapshot,
             listener: OnObservationSelectedListener?
@@ -57,45 +68,32 @@ open class ObservationAdapter(query: Query, private val listener: OnObservationS
             // Date String
             binding.observationItemDate.text = observation.timestamp.toDate().toString()
 
-            // When the bookmark button is clicked
-            binding.bookmarkButton.setOnClickListener {
-                if (binding.bookmarked.visibility == View.VISIBLE) {
-                    binding.bookmarked.visibility = View.INVISIBLE
-                }
-                else {
-                    binding.bookmarked.visibility = View.VISIBLE
+            // Assign visibility based on the membership to the bookmarks array
+            binding.bookmarked.visibility =
+                if (user.bookmarks.map { it.id }.contains(observation.id)) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
                 }
 
+            // When the bookmark button is clicked
+            binding.bookmarkButton.setOnClickListener {
                 // DocumentReference of the Observation clicked
                 val reference = Firebase.firestore
                     .collection("observations")
                     .document(observation.id!!)
 
+                val newDoc: Map<String, Any> = if (user.bookmarks.contains(reference)) {
+                    hashMapOf("bookmarks" to FieldValue.arrayRemove(reference))
+                } else {
+                    hashMapOf("bookmarks" to FieldValue.arrayUnion(reference))
+                }
 
-                // TODO: Actually update the list of bookmarked document references in the UserDoc
+                // Update the user document to reflect this
                 Firebase.firestore
                     .collection("users")
                     .document(Firebase.auth.currentUser!!.uid)
-                    .get()
-                    .addOnSuccessListener { documentSnapshot ->
-                        // If the document snapshot is valid
-                        if (documentSnapshot != null) {
-                            // Construct a User object from the Snapshot
-                            val user: User = requireNotNull(documentSnapshot.toObject<User>())
-
-                            val newDoc: Map<String, Any> = if (user.bookmarks.contains(reference)) {
-                                hashMapOf("bookmarks" to FieldValue.arrayRemove(reference))
-                            } else {
-                                hashMapOf("bookmarks" to FieldValue.arrayUnion(reference))
-                            }
-
-                            // Update the user document to reflect this
-                            Firebase.firestore
-                                .collection("users")
-                                .document(Firebase.auth.currentUser!!.uid)
-                                .update(newDoc)
-                        }
-                    }
+                    .update(newDoc)
             }
 
             // Click listener
