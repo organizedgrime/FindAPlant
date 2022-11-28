@@ -7,29 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
+import com.fern.findaplant.models.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Query
+import com.google.firebase.auth.ktx.*
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 
 class BookmarkFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
-    private lateinit var query: Query
-
     private lateinit var binding: FragmentBookmarkBinding
     private lateinit var adapter: ObservationAdapter
+
+    private lateinit var viewModel: BookmarkFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,15 +37,36 @@ class BookmarkFragment : Fragment(),
         // Inflate binding
         binding = FragmentBookmarkBinding.inflate(layoutInflater)
 
-        // Firebase Init
-        auth = Firebase.auth
-        firestore = Firebase.firestore
+        // Initialize the CounterViewModel variable defined above
+        viewModel = ViewModelProvider(this)[BookmarkFragmentViewModel::class.java]
+        // Bind CounterViewModel variable to the activity lifecycle
+        viewModel.bindToActivityLifecycle(requireActivity())
 
-        // Set the query to be a call to our observations collection
-        query = firestore
-            .collection("observations")
-            //TODO: Add filtering to ensure that they are in our list of bookmarks
+        // Return root
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        beginObservingUser()
+    }
+
+    private fun beginObservingUser() {
+        // Now that the user model has been loaded
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            Log.i(TAG, "BookmarkFragment received User observation")
+            // Represent the bookmarks as DocumentIDs
+            val bookmarkIDs = user.bookmarks.map { it.id }
+            val query = Firebase.firestore.collection("observations")
+                .whereIn(FieldPath.documentId(), bookmarkIDs)
+            // Load the adapter using this query
+            loadAdapter(query)
+            // Start listening for Firestore updates
+            adapter.startListening()
+        }
+    }
+
+    private fun loadAdapter(query: Query) {
         // Adapter for RecyclerView
         adapter = object : ObservationAdapter(query, this@BookmarkFragment) {
             override fun onDataChanged() {
@@ -78,21 +98,6 @@ class BookmarkFragment : Fragment(),
         )
         // Add the item decorator
         binding.recyclerObservations.addItemDecoration(dividerItemDecoration)
-
-        // Return root
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        // Start listening for Firestore updates
-        adapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter.stopListening()
     }
 
     override fun onObservationSelected(observation: DocumentSnapshot) {

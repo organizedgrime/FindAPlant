@@ -59,7 +59,7 @@ class FirestoreFragment : Fragment() {
                     .collection("users")
                     .document(Firebase.auth.currentUser!!.uid)
                 documentReference.addSnapshotListener{
-                        documentSnapshot, error ->
+                        documentSnapshot, _ ->
                     // If the document snapshot is valid
                     if (documentSnapshot != null) {
                         // Construct a User object from the Snapshot
