@@ -7,9 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fern.findaplant.databinding.ItemObservationBinding
 import com.fern.findaplant.models.Observation
+import com.fern.findaplant.models.User
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 open class ObservationAdapter(query: Query, private val listener: OnObservationSelectedListener) :
     FirestoreAdapter<ObservationAdapter.ViewHolder>(query) {
@@ -54,13 +59,43 @@ open class ObservationAdapter(query: Query, private val listener: OnObservationS
 
             // When the bookmark button is clicked
             binding.bookmarkButton.setOnClickListener {
-                //TODO: Actually update the list of bookmarked document references in the UserDoc
                 if (binding.bookmarked.visibility == View.VISIBLE) {
                     binding.bookmarked.visibility = View.INVISIBLE
                 }
                 else {
                     binding.bookmarked.visibility = View.VISIBLE
                 }
+
+                // DocumentReference of the Observation clicked
+                val reference = Firebase.firestore
+                    .collection("observations")
+                    .document(observation.id!!)
+
+
+                // TODO: Actually update the list of bookmarked document references in the UserDoc
+                Firebase.firestore
+                    .collection("users")
+                    .document(Firebase.auth.currentUser!!.uid)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        // If the document snapshot is valid
+                        if (documentSnapshot != null) {
+                            // Construct a User object from the Snapshot
+                            val user: User = requireNotNull(documentSnapshot.toObject<User>())
+
+                            val newDoc: Map<String, Any> = if (user.bookmarks.contains(reference)) {
+                                hashMapOf("bookmarks" to FieldValue.arrayRemove(reference))
+                            } else {
+                                hashMapOf("bookmarks" to FieldValue.arrayUnion(reference))
+                            }
+
+                            // Update the user document to reflect this
+                            Firebase.firestore
+                                .collection("users")
+                                .document(Firebase.auth.currentUser!!.uid)
+                                .update(newDoc)
+                        }
+                    }
             }
 
             // Click listener

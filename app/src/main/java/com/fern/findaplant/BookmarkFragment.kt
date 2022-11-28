@@ -55,14 +55,16 @@ class BookmarkFragment : Fragment(),
         // Now that the user model has been loaded
         viewModel.user.observe(viewLifecycleOwner) { user ->
             Log.i(TAG, "BookmarkFragment received User observation")
-            // Represent the bookmarks as DocumentIDs
-            val bookmarkIDs = user.bookmarks.map { it.id }
-            val query = Firebase.firestore.collection("observations")
-                .whereIn(FieldPath.documentId(), bookmarkIDs)
-            // Load the adapter using this query
-            loadAdapter(query)
-            // Start listening for Firestore updates
-            adapter.startListening()
+            if (user.bookmarks.isNotEmpty()) {
+                // Represent the bookmarks as DocumentIDs
+                val bookmarkIDs = user.bookmarks.map { it.id }
+                val query = Firebase.firestore.collection("observations")
+                    .whereIn(FieldPath.documentId(), bookmarkIDs)
+                // Load the adapter using this query
+                loadAdapter(query)
+                // Start listening for Firestore updates
+                adapter.startListening()
+            }
         }
     }
 
