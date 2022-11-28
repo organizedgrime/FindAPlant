@@ -15,18 +15,13 @@ import com.fern.findaplant.databinding.FragmentObservationsBinding
 import com.fern.findaplant.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class ObservationsFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener{
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
     private lateinit var query: Query
 
     private lateinit var binding: FragmentObservationsBinding
@@ -39,18 +34,38 @@ class ObservationsFragment : Fragment(),
         //
         binding = FragmentObservationsBinding.inflate(layoutInflater)
 
-        // Firebase Init
-        auth = Firebase.auth
-        firestore = Firebase.firestore
+        // Inflate the layout for this fragment
+        return binding.root
+    }
 
-        // Set the query to be a call to our observations collection
-        query = firestore
-            .collection("observations")
-            .whereEqualTo("observer", firestore.document("users/${Firebase.auth.currentUser!!.uid}"))
-        //TODO: Add filtering to ensure that they are in our list of bookmarks
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        beginObservingUser()
+    }
 
+    private fun beginObservingUser() {
+        // Now that the user model has been loaded
+        (context as MainActivity).viewModel.user.observe(viewLifecycleOwner) { user ->
+            Log.i(BookmarkFragment.TAG, "ObservationsFragment received User observation")
+            // Set the query to be a call to our observations collection
+            query = Firebase.firestore
+                .collection("observations")
+                .whereEqualTo(
+                    "observer",
+                    Firebase.firestore.document(
+                        "users/${Firebase.auth.currentUser!!.uid}"
+                    )
+                )
+            // Load the adapter using this query
+            loadAdapter(user, query)
+            // Start listening for Firestore updates
+            adapter.startListening()
+        }
+    }
+
+    private fun loadAdapter(user: User, query: Query) {
         // Adapter for RecyclerView
-        adapter = object : ObservationAdapter(User(), query, this@ObservationsFragment) {
+        adapter = object : ObservationAdapter(user, query, this@ObservationsFragment) {
             override fun onDataChanged() {
                 // If there are no bookmarks
                 if (itemCount == 0) {
@@ -80,21 +95,6 @@ class ObservationsFragment : Fragment(),
         )
         // Add the item decorator
         binding.recyclerObservations.addItemDecoration(dividerItemDecoration)
-
-        // Inflate the layout for this fragment
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        // Start listening for Firestore updates
-        adapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter.stopListening()
     }
 
     override fun onObservationSelected(observation: DocumentSnapshot) {

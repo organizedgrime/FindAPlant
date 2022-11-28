@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.fern.findaplant.databinding.ActivityMainBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        val splashScreen = installSplashScreen()
@@ -21,6 +23,12 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // Initialize the CounterViewModel variable defined above
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+        // Bind CounterViewModel variable to the activity lifecycle
+        viewModel.bindToActivityLifecycle(this)
+
         setContentView(binding.root)
 
         // By default, start the user off in the Bookmarks fragment

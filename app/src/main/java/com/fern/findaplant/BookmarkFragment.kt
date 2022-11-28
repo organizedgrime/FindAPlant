@@ -7,18 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
 import com.fern.findaplant.models.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.*
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 
@@ -28,20 +24,12 @@ class BookmarkFragment : Fragment(),
     private lateinit var binding: FragmentBookmarkBinding
     private lateinit var adapter: ObservationAdapter
 
-    private lateinit var viewModel: BookmarkFragmentViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate binding
         binding = FragmentBookmarkBinding.inflate(layoutInflater)
-
-        // Initialize the CounterViewModel variable defined above
-        viewModel = ViewModelProvider(this)[BookmarkFragmentViewModel::class.java]
-        // Bind CounterViewModel variable to the activity lifecycle
-        viewModel.bindToActivityLifecycle(requireActivity())
-
         // Return root
         return binding.root
     }
@@ -53,7 +41,7 @@ class BookmarkFragment : Fragment(),
 
     private fun beginObservingUser() {
         // Now that the user model has been loaded
-        viewModel.user.observe(viewLifecycleOwner) { user ->
+        (context as MainActivity).viewModel.user.observe(viewLifecycleOwner) { user ->
             Log.i(TAG, "BookmarkFragment received User observation")
             if (user.bookmarks.isNotEmpty()) {
                 // Represent the bookmarks as DocumentIDs

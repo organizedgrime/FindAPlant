@@ -1,7 +1,6 @@
 package com.fern.findaplant
 
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.fern.findaplant.models.User
 import com.google.firebase.auth.ktx.auth
@@ -9,12 +8,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class BookmarkFragmentViewModel: ViewModel(), DefaultLifecycleObserver {
+class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
     // The User object that will be loaded in from Firestore
     private var _user: MutableLiveData<User> = MutableLiveData<User>()
     internal val user: LiveData<User> get() = _user
 
-    internal fun bindToActivityLifecycle(mainActivity: FragmentActivity) {
+    internal fun bindToActivityLifecycle(mainActivity: MainActivity) {
         // Add the current instance of CounterViewModel as a LifeCycleObserver to the MainActivity
         mainActivity.lifecycle.addObserver(this);
     }
@@ -37,6 +36,6 @@ class BookmarkFragmentViewModel: ViewModel(), DefaultLifecycleObserver {
     }
 
     companion object {
-        const val TAG = "BookmarkFragmentViewModel"
+        const val TAG = "MainActivityViewModel"
     }
 }
