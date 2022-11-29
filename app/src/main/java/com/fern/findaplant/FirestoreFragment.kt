@@ -1,7 +1,10 @@
 package com.fern.findaplant
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -10,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,9 +25,12 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.storage.ktx.storage
 
 class FirestoreFragment : Fragment() {
     lateinit var binding: FragmentFirestoreBinding
+    private lateinit var registration: ActivityResultLauncher<Intent>
+    private lateinit var pfpURL: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -131,18 +138,42 @@ class FirestoreFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Activity results need to be registered for on attachment
+        registration = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            // If the Activity returned with success
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                //  you will get result here in result.data
+                val selectedImage: Uri = requireNotNull(result.data!!.data)
+
+                // Upload Task with upload to directory 'file'
+                // and name of the file remains same
+                Firebase.storage.reference
+                    .child("users/${Firebase.auth.currentUser!!.uid}")
+                    .putFile(selectedImage)
+                    .addOnSuccessListener {
+                        val url = it.metadata?.reference?.downloadUrl
+                        // If there is actually a URL associated with the image
+                        if (url != null) {
+                            Log.i(TAG, "Upload succeeded with URL $url")
+                            pfpURL = url.toString()
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.w(TAG, "Failed to upload new profile picture")
+                    }
+            }
+        }
+    }
+
     // TODO fix this
     private fun selectPhoto() {
-        val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                //  you will get result here in result.data
-            }
-
-        }
-
         // Create the associated intent for picking something
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startForResult.launch(intent)
+        registration.launch(intent)
     }
 
     private fun saveData() {
