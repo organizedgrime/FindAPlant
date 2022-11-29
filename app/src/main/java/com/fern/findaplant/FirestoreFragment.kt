@@ -1,12 +1,16 @@
 package com.fern.findaplant
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -29,13 +33,13 @@ class FirestoreFragment : Fragment() {
         // Use the provided ViewBinding class to inflate the layout.
         binding = FragmentFirestoreBinding.inflate(layoutInflater)
 
-        // When the logout button is clicked
+        // Bind various buttons to their functions
+        binding.profilePicture.setOnClickListener { selectPhoto() }
         binding.logout.setOnClickListener { logout() }
-
         binding.saveData.setOnClickListener { saveData() }
-
         binding.signUp.setOnClickListener { signUp() }
 
+        // Hide buttons based on Context
         if (context is NoAuthActivity) {
             // Make the Save Data button invisible
             binding.saveData.visibility = View.INVISIBLE
@@ -53,7 +57,7 @@ class FirestoreFragment : Fragment() {
             if (context is NoAuthActivity) {
                 Firebase.firestore
                     .collection("users")
-                    .document("xcv")
+                    .document(Firebase.auth.currentUser!!.uid)
                     .get()
                     // If the UserDoc already exists and we can grab it
                     .addOnSuccessListener { documentSnapshot ->
@@ -66,6 +70,12 @@ class FirestoreFragment : Fragment() {
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
                         }
+                        else {
+                            Log.i(TAG, "DocumentSnapshot obtained but casting failed")
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.w(TAG, "Could not find UserDoc in FirestoreFragment, letting user create")
                     }
             }
             // If we're in the MainActivity
@@ -121,8 +131,25 @@ class FirestoreFragment : Fragment() {
         return binding.root
     }
 
+    // TODO fix this
+    private fun selectPhoto() {
+        val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //  you will get result here in result.data
+            }
+
+        }
+
+        // Create the associated intent for picking something
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startForResult.launch(intent)
+    }
+
     private fun saveData() {
         Log.i(TAG, "Updating UserDoc in firestore")
+        val userDoc: Map<String, Any> = hashMapOf(
+
+        )
     }
 
     private fun signUp() {
