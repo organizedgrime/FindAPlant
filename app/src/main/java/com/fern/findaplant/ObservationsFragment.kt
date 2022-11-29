@@ -70,8 +70,10 @@ class ObservationsFragment : Fragment(),
                 // If there are no Observations
                 if (itemCount == 0) {
                     binding.recyclerObservations.visibility = View.GONE
+                    binding.noneLabel.visibility = View.VISIBLE
                 } else {
                     binding.recyclerObservations.visibility = View.VISIBLE
+                    binding.noneLabel.visibility = View.INVISIBLE
                 }
             }
 

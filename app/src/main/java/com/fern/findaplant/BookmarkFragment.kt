@@ -65,8 +65,10 @@ class BookmarkFragment : Fragment(),
                 // If there are no bookmarks
                 if (itemCount == 0) {
                     binding.recyclerObservations.visibility = View.GONE
+                    binding.noneLabel.visibility = View.VISIBLE
                 } else {
                     binding.recyclerObservations.visibility = View.VISIBLE
+                    binding.noneLabel.visibility = View.INVISIBLE
                 }
             }
 

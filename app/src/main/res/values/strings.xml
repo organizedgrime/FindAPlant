@@ -54,4 +54,6 @@
     <string name="firestore_photo">Profile Picture</string>
     <string name="username_hint_string">Username</string>
     <string name="alt_observation_image">Observation Image</string>
+    <string name="bookmark_none">No Bookmarks</string>
+    <string name="observations_none">No Observations</string>
 </resources>

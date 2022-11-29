@@ -15,4 +15,11 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_observation" />
 
+    <TextView
+        android:id="@+id/noneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bookmark_none"
+        android:textSize="40sp" />
+
 </FrameLayout>
