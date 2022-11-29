@@ -16,20 +16,25 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 
 class FirestoreFragment : Fragment() {
+    lateinit var binding: FragmentFirestoreBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Use the provided ViewBinding class to inflate the layout.
-        val binding = FragmentFirestoreBinding.inflate(inflater, container, false)
+        binding = FragmentFirestoreBinding.inflate(layoutInflater)
 
         // When the logout button is clicked
         binding.logout.setOnClickListener { logout() }
 
         binding.saveData.setOnClickListener { saveData() }
+
+        binding.signUp.setOnClickListener { signUp() }
 
         if (context is NoAuthActivity) {
             // Make the Save Data button invisible
@@ -46,19 +51,30 @@ class FirestoreFragment : Fragment() {
         if (Firebase.auth.currentUser != null) {
             // If we're in the No Auth activity
             if (context is NoAuthActivity) {
-                // Simply navigate to the Main Activity
-                // Return to the No Auth Activity
-                val intent = Intent(context, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
+                Firebase.firestore
+                    .collection("users")
+                    .document("xcv")
+                    .get()
+                    // If the UserDoc already exists and we can grab it
+                    .addOnSuccessListener { documentSnapshot ->
+                        val user: User? = documentSnapshot.toObject<User>()
+                        // If the cast succeeded
+                        if (user != null) {
+                            Log.i(TAG, "Found UserDoc in FirestoreFragment, proceeding to MainActivity")
+                            // Simply navigate to the Main Activity
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                        }
+                    }
             }
             // If we're in the MainActivity
             else {
                 Log.i(TAG, "Searching for user with auth uid ${Firebase.auth.currentUser!!.uid}")
-                val documentReference = Firebase.firestore
+                Firebase.firestore
                     .collection("users")
                     .document(Firebase.auth.currentUser!!.uid)
-                documentReference.addSnapshotListener{
+                    .addSnapshotListener{
                         documentSnapshot, _ ->
                     // If the document snapshot is valid
                     if (documentSnapshot != null) {
@@ -97,7 +113,7 @@ class FirestoreFragment : Fragment() {
             }
         }
         else {
-            Log.e(TAG, "Auth user is NULL in MainActivity")
+            Log.e(TAG, "Auth user is NULL in FirestoreFragment")
             logout()
         }
 
@@ -107,6 +123,31 @@ class FirestoreFragment : Fragment() {
 
     private fun saveData() {
         Log.i(TAG, "Updating UserDoc in firestore")
+    }
+
+    private fun signUp() {
+        // Default User Document
+        val userDoc: Map<String, Any> = hashMapOf(
+            "name" to binding.name.text.toString(),
+            "userName" to binding.userName.text.toString(),
+            "bookmarks" to arrayListOf<DocumentReference>(),
+            // TODO: Keep track of URL string for an uploaded picture
+            "profilePicture" to ""
+        )
+
+        // Set the UserDoc in the Firestore database
+        Firebase.firestore
+            .collection("users")
+            .document(Firebase.auth.currentUser!!.uid)
+            .set(userDoc)
+            // When the set operation completes successfully
+            .addOnSuccessListener {
+                // Simply navigate to the Main Activity
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
     private fun logout() {
@@ -129,6 +170,6 @@ class FirestoreFragment : Fragment() {
     }
 
     companion object {
-        const val TAG = "SettingsFragment"
+        const val TAG = "FirestoreFragment"
     }
 }

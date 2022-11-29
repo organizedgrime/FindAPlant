@@ -53,7 +53,7 @@ class RegistrationFragment : Fragment() {
             return
         }
 
-        //
+        // Make the spinning animation visible
         binding.progressBar.visibility = View.VISIBLE
 
         Firebase.auth.createUserWithEmailAndPassword(email, password)

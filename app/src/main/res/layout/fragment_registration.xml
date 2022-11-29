@@ -3,10 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".RegistrationFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,11 +55,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_string" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 
 </LinearLayout>
