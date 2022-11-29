@@ -26,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.ktx.storage
+import java.net.URL
 
 class FirestoreFragment : Fragment() {
     lateinit var binding: FragmentFirestoreBinding
@@ -155,12 +156,17 @@ class FirestoreFragment : Fragment() {
                     .child("users/${Firebase.auth.currentUser!!.uid}")
                     .putFile(selectedImage)
                     .addOnSuccessListener {
-                        val url = it.metadata?.reference?.downloadUrl
-                        // If there is actually a URL associated with the image
-                        if (url != null) {
-                            Log.i(TAG, "Upload succeeded with URL $url")
-                            pfpURL = url.toString()
-                        }
+                        // Obtain the URL for the image we just uploaded
+                        Firebase.storage.reference
+                            .child("users/${Firebase.auth.currentUser!!.uid}")
+                            .downloadUrl
+                            .addOnSuccessListener { url ->
+                                // If there is actually a URL associated with the image
+                                if (url != null) {
+                                    Log.i(TAG, "Upload succeeded with URL ${url.toString()}")
+                                    (context as MainActivity).viewModel.updateProfilePicture(url.toString())
+                                }
+                            }
                     }
                     .addOnFailureListener {
                         Log.w(TAG, "Failed to upload new profile picture")
@@ -169,11 +175,14 @@ class FirestoreFragment : Fragment() {
         }
     }
 
-    // TODO fix this
+    // Allows the user to pick a photo from Camera Roll
     private fun selectPhoto() {
         // Create the associated intent for picking something
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        registration.launch(intent)
+        registration.launch(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        )
     }
 
     private fun saveData() {
