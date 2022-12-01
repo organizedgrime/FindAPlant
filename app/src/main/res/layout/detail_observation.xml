@@ -8,49 +8,6 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/divider2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" | "
-        app:layout_constraintBottom_toBottomOf="@id/observationItemDate"
-        app:layout_constraintStart_toEndOf="@id/observationItemTimestamp" />
-
-    <TextView
-        android:id="@+id/divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" | "
-        app:layout_constraintBottom_toBottomOf="@id/observationItemDate"
-        app:layout_constraintStart_toEndOf="@id/observationItemDate"
-         />
-
-    <TextView
-        android:id="@+id/observationItemObserver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@id/observationItemDescription"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/observationItemDate"
-        tools:text="Observer" />
-
-    <TextView
-        android:id="@+id/observationItemTimestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/observationItemDate"
-        app:layout_constraintStart_toEndOf="@id/divider"
-        tools:text="Timestamp" />
-
-    <TextView
-        android:id="@+id/observationItemCoordinates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/observationItemDate"
-        app:layout_constraintStart_toEndOf="@id/divider2"
-        tools:text="Coordinates" />
-
     <ImageView
         android:id="@+id/observationItemImage"
         android:layout_width="240dp"
@@ -62,49 +19,65 @@
         app:layout_constraintRight_toRightOf="parent"
         android:contentDescription="@string/alt_observation_image" />
 
-    <TextView
-        android:id="@+id/observationItemCommonName"
+    <LinearLayout
+        android:id="@+id/organismName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintTop_toBottomOf="@+id/observationItemImage"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="Common Name of Organism" />
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/observationItemImage">
 
-    <TextView
-        android:id="@+id/observationItemScientificName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@id/observationItemCommonName"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="Scientific Name" />
+        <TextView
+            android:id="@+id/observationItemCommonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="Common Name of Organism" />
 
-    <TextView
-        android:id="@+id/observationItemDate"
+        <TextView
+            android:id="@+id/observationItemScientificName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="Scientific Name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@id/observationItemDate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/observationItemScientificName"
-        tools:text="Date" />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/organismName">
+
+        <TextView
+            android:id="@+id/observationItemObserver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Observer " />
+
+        <TextView
+            android:id="@+id/observationItemTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="| Timestamp" />
+
+        <TextView
+            android:id="@+id/observationItemCoordinate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="| Coordinate" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/observationItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/observationItemObserver"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:text="Description" />
-
     <FrameLayout
         android:id="@+id/bookmarkButton"
         android:layout_width="30dp"
