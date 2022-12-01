@@ -57,4 +57,8 @@
     <string name="bookmark_none">No Bookmarks</string>
     <string name="observations_none">No Observations</string>
     <string name="signup">Sign Up</string>
+    <string name="observation_coordinate">Location</string>
+    <string name="observation_time">Time</string>
+    <string name="observation_description">Describe what you saw...</string>
+    <string name="alt_send_button">Send</string>
 </resources>

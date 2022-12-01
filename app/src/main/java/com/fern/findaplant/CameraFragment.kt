@@ -27,10 +27,9 @@ class CameraFragment : Fragment() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var camera: Camera? = null
+
     private lateinit var cameraSelector: CameraSelector
-
     private lateinit var safeContext: Context
-
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var binding: FragmentCameraBinding
@@ -113,6 +112,12 @@ class CameraFragment : Fragment() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+
+                    // Represent as list
+                    val paths = arrayListOf<String>(photoFile.path)
+
+                    // Open the New Post Fragment with the associated uri
+                    (context as MainActivity).loadFragment(NewPostFragment.newInstance(paths))
                 }
             }
         )
