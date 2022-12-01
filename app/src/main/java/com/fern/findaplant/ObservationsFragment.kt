@@ -1,17 +1,22 @@
 package com.fern.findaplant
 
+import android.R
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fern.findaplant.adaptors.ObservationAdapter
+import com.fern.findaplant.databinding.DetailObservationBinding
 import com.fern.findaplant.databinding.FragmentBookmarkBinding
 import com.fern.findaplant.databinding.FragmentObservationsBinding
+import com.fern.findaplant.databinding.ItemObservationBinding
 import com.fern.findaplant.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -23,7 +28,7 @@ class ObservationsFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener{
 
     private lateinit var query: Query
-
+    private lateinit var theDetailedView: DetailObservationBinding
     private lateinit var binding: FragmentObservationsBinding
     private lateinit var adapter: ObservationAdapter
 
@@ -33,6 +38,9 @@ class ObservationsFragment : Fragment(),
     ): View {
         //
         binding = FragmentObservationsBinding.inflate(layoutInflater)
+        //binding.recyclerObservations.setOnClickListener(onObservationSelected(binding.recyclerObservations.))
+
+        //theDetailedView  = DetailObservationBinding.inflate(layoutInflater)
 
         // Inflate the layout for this fragment
         return binding.root
@@ -93,6 +101,18 @@ class ObservationsFragment : Fragment(),
     override fun onObservationSelected(observation: DocumentSnapshot) {
         Log.i(BookmarkFragment.TAG, "Selection made")
         TODO("Not yet implemented")
+        //binding.root.addView(theDetailedView.root)
+        //Inflate once selected
+        val attempt = observation.toObject<Observation>() ?: return
+        detailedview = DetailObservationBinding.inflate(layoutInflater)
+        detailedview.observationItemCommonName.text = attempt.commonName
+        detailedview.observationItemDescription.text = attempt.description
+        detailedview.observationItemTimestamp.text = attempt.timestamp.toString()
+        detailedview.observationItemScientificName.text = attempt.scientificName
+        detailedview.observationItemCoordinate.text = attempt.coordinate.toString()
+        //ToDO figure out photo conversion
+        binding.root.addView(detailedview.root)
+
     }
 
     companion object {
