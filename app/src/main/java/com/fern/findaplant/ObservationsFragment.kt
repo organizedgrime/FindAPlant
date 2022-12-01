@@ -28,7 +28,7 @@ class ObservationsFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener{
 
     private lateinit var query: Query
-    private lateinit var theDetailedView: DetailObservationBinding
+    //private lateinit var theDetailedView: DetailObservationBinding
     private lateinit var binding: FragmentObservationsBinding
     private lateinit var adapter: ObservationAdapter
 
@@ -103,15 +103,15 @@ class ObservationsFragment : Fragment(),
         TODO("Not yet implemented")
         //binding.root.addView(theDetailedView.root)
         //Inflate once selected
-        val attempt = observation.toObject<Observation>() ?: return
-        detailedview = DetailObservationBinding.inflate(layoutInflater)
-        detailedview.observationItemCommonName.text = attempt.commonName
-        detailedview.observationItemDescription.text = attempt.description
-        detailedview.observationItemTimestamp.text = attempt.timestamp.toString()
-        detailedview.observationItemScientificName.text = attempt.scientificName
-        detailedview.observationItemCoordinate.text = attempt.coordinate.toString()
-        //ToDO figure out photo conversion
-        binding.root.addView(detailedview.root)
+//        val attempt = observation.toObject<Observation>() ?: return
+//        detailedview = DetailObservationBinding.inflate(layoutInflater)
+//        detailedview.observationItemCommonName.text = attempt.commonName
+//        detailedview.observationItemDescription.text = attempt.description
+//        detailedview.observationItemTimestamp.text = attempt.timestamp.toString()
+//        detailedview.observationItemScientificName.text = attempt.scientificName
+//        detailedview.observationItemCoordinate.text = attempt.coordinate.toString()
+//        //ToDO figure out photo conversion
+//        binding.root.addView(detailedview.root)
 
     }
 
