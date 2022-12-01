@@ -1,13 +1,18 @@
 package com.fern.findaplant
 
 import android.util.Log
+import android.net.Uri
 import androidx.lifecycle.*
 import com.fern.findaplant.models.User
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
     // Reference to the user Document
@@ -57,6 +62,39 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             }
             .addOnFailureListener {
                 Log.i(TAG, "Profile Picture failed to update in UserDoc")
+            }
+    }
+
+    fun postObservation(
+        uris: ArrayList<Uri>,
+        coordinate: GeoPoint,
+        date: Date,
+        description: String
+    ) {
+        //TODO
+        // First, upload all the photo files to Firebase Storage
+
+        // Next, construct an object which we will push to `observations`
+        val newObservation: Map<String, Any> = hashMapOf(
+            "description" to description,
+            //TODO integrate these with form values
+            "commonName" to "commonName template",
+            "scientificName" to "scientificName template",
+            "coordinate" to coordinate,
+            "timestamp" to Timestamp(date),
+            "observer" to Firebase.firestore
+                .collection("users")
+                .document(user.value?.id!!),
+            "photos" to emptyList<String>()
+        )
+
+        // Finally, create a new document in the `observations` collection using it
+        Firebase.firestore.collection("observations").add(newObservation)
+            .addOnSuccessListener {
+                Log.i(TAG, "New Observation posted successfully")
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "New Observation failed to post")
             }
     }
 
