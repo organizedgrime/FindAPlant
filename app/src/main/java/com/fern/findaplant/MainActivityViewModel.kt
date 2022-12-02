@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
@@ -90,30 +91,18 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
     }
 
     fun postObservation(
-        uris: ArrayList<Uri>,
-        coordinate: GeoPoint,
-        date: Date,
-        description: String
+        observationID: String,
+        map: MutableMap<String, Any>
     ) {
-        //TODO
-        // First, upload all the photo files to Firebase Storage
-
-        // Next, construct an object which we will push to `observations`
-        val newObservation: Map<String, Any> = hashMapOf(
-            "description" to description,
-            //TODO integrate these with form values
-            "commonName" to "commonName template",
-            "scientificName" to "scientificName template",
-            "coordinate" to coordinate,
-            "timestamp" to Timestamp(date),
-            "observer" to Firebase.firestore
-                .collection("users")
-                .document(user.value?.id!!),
-            "photos" to emptyList<String>()
-        )
+        map["commonName"] = "commonName template"
+        map["scientificName"] = "scientificName template"
+        map["observer"] = Firebase.firestore.collection("users").document(user.value?.id!!)
 
         // Finally, create a new document in the `observations` collection using it
-        Firebase.firestore.collection("observations").add(newObservation)
+        Firebase.firestore
+            .collection("observations")
+            .document(observationID)
+            .set(map)
             .addOnSuccessListener {
                 Log.i(TAG, "New Observation posted successfully")
             }

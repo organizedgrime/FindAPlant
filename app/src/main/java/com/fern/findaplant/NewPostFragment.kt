@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import com.fern.findaplant.databinding.FragmentNewPostBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
 import java.io.File
 import java.util.*
@@ -20,6 +22,7 @@ class NewPostFragment : Fragment() {
 
     private lateinit var binding: FragmentNewPostBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var mainViewModel: MainActivityViewModel
     private var coordinate: GeoPoint = GeoPoint(0.0, 0.0)
 
     @SuppressLint("MissingPermission")
@@ -36,24 +39,44 @@ class NewPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewPostBinding.inflate(layoutInflater)
+        mainViewModel = (requireContext() as MainActivity).viewModel
 
         // Extract file paths
-        val path = requireArguments().getStringArrayList("paths")?.get(0)!!
+        val paths = requireArguments().getStringArrayList("paths")!!
         // Represent as URIs
-        val uri = Uri.fromFile(File(path))
+        val uris = paths.map { Uri.fromFile(File(it)) }
 
-        // Update the image
-        binding.observationImage.setImageURI(uri)
+        // Update the image to be the first
+        binding.observationImage.setImageURI(uris[0])
         // Update the time label
         binding.timeLabel.text = Date().toString()
 
+        val observationID = UUID.randomUUID().toString()
+        Log.i(TAG, "New observation id is $observationID")
+
         binding.sendButton.setOnClickListener {
-            (requireContext() as MainActivity).viewModel.postObservation(
-                arrayListOf(),
-                coordinate,
-                Date(),
-                binding.description.toString()
-            )
+            // Keep track of photo urls
+            val photoUrls = mutableListOf<String>()
+
+            // Upload the photo associated with it
+            mainViewModel
+                // TODO replace this with a function that will allow us
+                //  to upload multiple photos at once
+                .uploadPhoto("observations/$observationID/0", uris[0]) { url ->
+                    // And save the URL of the upload location
+                    photoUrls.add(url)
+
+                    // Construct a map
+                    val map: MutableMap<String, Any> = hashMapOf(
+                        "photos" to photoUrls,
+                        "coordinate" to coordinate,
+                        "timestamp" to Timestamp(Date()),
+                        "description" to binding.description.toString()
+                    )
+
+                    // Post the observation with these params and id
+                    mainViewModel.postObservation(observationID, map)
+                }
         }
 
         return binding.root
