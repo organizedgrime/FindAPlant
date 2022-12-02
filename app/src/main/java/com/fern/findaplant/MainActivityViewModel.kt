@@ -58,7 +58,7 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             .addOnSuccessListener {
                 // Obtain the URL for the image we just uploaded
                 Firebase.storage.reference
-                    .child("users/${Firebase.auth.currentUser!!.uid}")
+                    .child(path)
                     .downloadUrl
                     .addOnSuccessListener { url ->
                         // If there is actually a URL associated with the image
@@ -92,7 +92,8 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
 
     fun postObservation(
         observationID: String,
-        map: MutableMap<String, Any>
+        map: MutableMap<String, Any>,
+        onSuccess: () -> Unit
     ) {
         map["commonName"] = "commonName template"
         map["scientificName"] = "scientificName template"
@@ -105,6 +106,7 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             .set(map)
             .addOnSuccessListener {
                 Log.i(TAG, "New Observation posted successfully")
+                onSuccess()
             }
             .addOnFailureListener {
                 Log.e(TAG, "New Observation failed to post")

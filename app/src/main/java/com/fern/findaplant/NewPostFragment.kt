@@ -71,11 +71,14 @@ class NewPostFragment : Fragment() {
                         "photos" to photoUrls,
                         "coordinate" to coordinate,
                         "timestamp" to Timestamp(Date()),
-                        "description" to binding.description.toString()
+                        "description" to binding.description.text.toString()
                     )
 
                     // Post the observation with these params and id
-                    mainViewModel.postObservation(observationID, map)
+                    mainViewModel.postObservation(observationID, map) {
+                        // Having succeeded in posting the observation, show the user them
+                        (requireContext() as MainActivity).loadFragment(ObservationsFragment())
+                    }
                 }
         }
 
