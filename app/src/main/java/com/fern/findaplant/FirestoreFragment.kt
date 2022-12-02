@@ -152,24 +152,9 @@ class FirestoreFragment : Fragment() {
 
                 // Upload Task with upload to directory 'file'
                 // and name of the file remains same
-                Firebase.storage.reference
-                    .child("users/${Firebase.auth.currentUser!!.uid}")
-                    .putFile(selectedImage)
-                    .addOnSuccessListener {
-                        // Obtain the URL for the image we just uploaded
-                        Firebase.storage.reference
-                            .child("users/${Firebase.auth.currentUser!!.uid}")
-                            .downloadUrl
-                            .addOnSuccessListener { url ->
-                                // If there is actually a URL associated with the image
-                                if (url != null) {
-                                    Log.i(TAG, "Upload succeeded with URL ${url.toString()}")
-                                    (context as MainActivity).viewModel.updateProfilePicture(url.toString())
-                                }
-                            }
-                    }
-                    .addOnFailureListener {
-                        Log.w(TAG, "Failed to upload new profile picture")
+                (requireContext() as MainActivity).viewModel
+                    .uploadPhoto("users/${Firebase.auth.currentUser!!.uid}", selectedImage) { url ->
+                        (requireContext() as MainActivity).viewModel.updateProfilePicture(url)
                     }
             }
         }
