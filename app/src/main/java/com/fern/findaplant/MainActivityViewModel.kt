@@ -59,21 +59,20 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
         Firebase.storage.reference
             .child(path)
             .putFile(uri)
-            .addOnSuccessListener {
+            .onSuccessTask {
                 // Obtain the URL for the image we just uploaded
                 Firebase.storage.reference
                     .child(path)
                     .downloadUrl
-                    .addOnSuccessListener { url ->
-                        // If there is actually a URL associated with the image
-                        if (url != null) {
-                            Log.i(TAG, "Upload succeeded with URL ${url.toString()}")
-                            onSuccess(url.toString())
-                        }
-                    }
             }
-            .addOnFailureListener {
-                Log.w(TAG, "Failed to upload new profile picture")
+            .addOnCompleteListener { url ->
+                if (url.isSuccessful) {
+                    // Run the callback
+                    onSuccess(url.toString())
+                }
+                else {
+                    Log.w(TAG, "Failed to upload new photo to Storage")
+                }
             }
     }
 
