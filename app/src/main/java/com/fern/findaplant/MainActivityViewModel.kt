@@ -5,6 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.fern.findaplant.models.User
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks.whenAllSuccess
+import com.google.android.gms.tasks.Tasks.whenAllComplete
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
@@ -12,6 +15,7 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import java.util.*
 import kotlin.collections.ArrayList
@@ -70,6 +74,32 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             }
             .addOnFailureListener {
                 Log.w(TAG, "Failed to upload new profile picture")
+            }
+    }
+
+    // Upload multiple photos at once
+    fun uploadPhotos(basePath: String, uris: List<Uri>, onSuccess: (urls: List<String>) -> Unit) {
+        val children = List(uris.size) { index ->
+            "$basePath/$index"
+        }
+
+        // Create a list of Tasks based on URIs and path
+        val tasks = uris.mapIndexed { index, uri ->
+            Firebase.storage.reference
+                .child(children[index])
+                .putFile(uri)
+                .onSuccessTask {
+                    Firebase.storage.reference
+                        .child(children[index])
+                        .downloadUrl
+                }
+        }
+
+        // Wait for the upload tasks complete
+        whenAllSuccess<Uri>(tasks)
+            .addOnSuccessListener { urlResults ->
+                // Call onSuccess
+                onSuccess(urlResults.map { url -> url.toString() })
             }
     }
 
