@@ -9,7 +9,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/observationItemImage"
+        android:id="@+id/image"
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:background="#757575"
@@ -27,57 +27,39 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/observationItemImage">
+        app:layout_constraintTop_toBottomOf="@+id/image">
 
         <TextView
-            android:id="@+id/observationItemCommonName"
+            android:id="@+id/commonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
             tools:text="Common Name of Organism" />
 
         <TextView
-            android:id="@+id/observationItemScientificName"
+            android:id="@+id/scientificName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
             tools:text="Scientific Name" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <TextView
+        android:id="@+id/metadata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        tools:text="Observer "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/organismName">
-
-        <TextView
-            android:id="@+id/observationItemObserver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Observer " />
-
-        <TextView
-            android:id="@+id/observationItemTimestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="| Timestamp" />
-
-        <TextView
-            android:id="@+id/observationItemCoordinate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="| Coordinate" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/organismName"/>
 
     <TextView
-        android:id="@+id/observationItemDescription"
+        android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/metadata"
         tools:text="Description" />
+
     <FrameLayout
         android:id="@+id/bookmarkButton"
         android:layout_width="30dp"

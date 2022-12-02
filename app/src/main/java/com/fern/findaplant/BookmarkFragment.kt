@@ -86,7 +86,8 @@ class BookmarkFragment : Fragment(),
 
     override fun onObservationSelected(observation: DocumentSnapshot) {
         Log.i(TAG, "Selection made")
-        TODO("Not yet implemented")
+        (requireContext() as MainActivity)
+            .loadFragment(ObservationFragment.newInstance(observation.id))
     }
 
     companion object {

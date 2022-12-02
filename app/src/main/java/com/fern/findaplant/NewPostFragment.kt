@@ -71,7 +71,9 @@ class NewPostFragment : Fragment() {
                     // Post the observation with these params and id
                     mainViewModel.postObservation(observationID, map) {
                         // Having succeeded in posting the observation, show the user them
-                        (requireContext() as MainActivity).loadFragment(ObservationsFragment())
+                        (requireContext() as MainActivity).loadFragment(
+                            ObservationFragment.newInstance(observationID)
+                        )
                     }
                 }
         }
