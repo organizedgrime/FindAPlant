@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.fern.findaplant.databinding.FragmentObservationBinding
 import com.fern.findaplant.models.Observation
 import com.fern.findaplant.models.User
@@ -18,6 +19,7 @@ class ObservationFragment : Fragment() {
 
     private lateinit var binding: FragmentObservationBinding
     private lateinit var observation: Observation
+    private var imageIndex = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +52,30 @@ class ObservationFragment : Fragment() {
         binding.scientificName.text = observation.scientificName
         binding.metadata.text = "this is metadata info including the observer time and location"
         binding.description.text = observation.description
+        binding.nextImage.setOnClickListener {
+            if (imageIndex < observation.photos.size - 1) {
+                imageIndex += 1
+                loadCurrentImage()
+            }
+        }
+        binding.previousImage.setOnClickListener {
+            if (imageIndex > 0) {
+                imageIndex -= 1
+                loadCurrentImage()
+            }
+        }
+        loadCurrentImage()
+    }
+
+    private fun loadCurrentImage() {
+        // If there is at least one image to display in the observation
+        if (observation.photos.isNotEmpty()) {
+            // Load image from object into thumbnail
+            Glide
+                .with(binding.currentImage.context)
+                .load(observation.photos[imageIndex])
+                .into(binding.currentImage)
+        }
     }
 
     companion object {

@@ -8,16 +8,40 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:background="#757575"
-        android:scaleType="centerCrop"
+    <LinearLayout
+        android:id="@+id/imageControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/alt_observation_image" />
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/previousImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:tint="@color/green_900"
+            android:contentDescription="TODO" />
+
+        <ImageView
+            android:id="@+id/currentImage"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/alt_observation_image" />
+
+        <ImageView
+            android:id="@+id/nextImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            app:tint="@color/green_900"
+            android:contentDescription="TODO" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/organismName"
@@ -27,7 +51,7 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image">
+        app:layout_constraintTop_toBottomOf="@+id/imageControls">
 
         <TextView
             android:id="@+id/commonName"
