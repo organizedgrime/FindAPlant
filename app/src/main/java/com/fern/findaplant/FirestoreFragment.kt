@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -152,9 +154,9 @@ class FirestoreFragment : Fragment() {
 
                 // Upload Task with upload to directory 'file'
                 // and name of the file remains same
-                (requireContext() as MainActivity).viewModel
+                (context as MainActivity).viewModel
                     .uploadPhoto("users/${Firebase.auth.currentUser!!.uid}", selectedImage) { url ->
-                        (requireContext() as MainActivity).viewModel.updateProfilePicture(url)
+                        context.viewModel.updateProfilePicture(url)
                     }
             }
         }

@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(
-                requireContext(),
+                context,
                 getString(R.string.login_toast),
                 Toast.LENGTH_LONG
             ).show()
@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
         }
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(
-                requireContext(),
+                context,
                 getString(R.string.password_toast),
                 Toast.LENGTH_LONG
             ).show()
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {
                     Toast.makeText(
-                        requireContext(),
+                        context,
                         "Login successful!",
                         Toast.LENGTH_LONG
                     ).show()
@@ -66,7 +66,7 @@ class LoginFragment : Fragment() {
                     (context as NoAuthActivity).loadFragment(FirestoreFragment())
                 } else {
                     Toast.makeText(
-                        requireContext(),
+                        context,
                         "Login failed! Please try again later",
                         Toast.LENGTH_LONG
                     ).show()

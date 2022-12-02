@@ -36,7 +36,7 @@ class RegistrationFragment : Fragment() {
         // If the email is invalid
         if (!validator.validEmail(email)) {
             Toast.makeText(
-                requireContext(),
+                context,
                 getString(R.string.invalid_email),
                 Toast.LENGTH_LONG
             ).show()
@@ -45,7 +45,7 @@ class RegistrationFragment : Fragment() {
         // If the password is invalid
         if (!validator.validPassword(password)) {
             Toast.makeText(
-                requireContext(),
+                context,
                 getString(R.string.invalid_password),
                 Toast.LENGTH_LONG
             ).show()
@@ -61,7 +61,7 @@ class RegistrationFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 if (task.isSuccessful) {
                     Toast.makeText(
-                        requireContext(),
+                        context,
                         getString(R.string.register_success_string),
                         Toast.LENGTH_LONG
                     ).show()
@@ -70,7 +70,7 @@ class RegistrationFragment : Fragment() {
                     (context as NoAuthActivity).loadFragment(FirestoreFragment())
                 } else {
                     Toast.makeText(
-                        requireContext(),
+                        context,
                         getString(R.string.register_failed_string),
                         Toast.LENGTH_LONG
                     ).show()
