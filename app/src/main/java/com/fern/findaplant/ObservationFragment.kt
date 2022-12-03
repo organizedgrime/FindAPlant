@@ -105,7 +105,9 @@ class ObservationFragment : Fragment() {
         }
         binding.commonName.text = observation.commonName
         binding.scientificName.text = observation.scientificName
-        binding.metadata.text = "this is metadata info including the observer time and location"
+        val geoText = observation.coordinate.toString()
+        val timeText = observation.timestamp.toDate().toString()
+        binding.metadata.text = "$geoText\n$timeText"
         binding.description.text = observation.description
         binding.nextImage.setOnClickListener {
             if (imageIndex < observation.photos.size - 1) {

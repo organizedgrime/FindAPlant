@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/metadata"
+            android:paddingTop="10dp"
             tools:text="Description" />
 
         <FrameLayout
