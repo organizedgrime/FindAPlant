@@ -71,6 +71,8 @@ class CameraFragment : Fragment() {
                 REQUIRED_PERMISSIONS.toTypedArray(),
                 REQUEST_CODE_PERMISSIONS
             )
+            // Relaunch the activity so that the updated permissions set is processed
+            (requireContext() as MainActivity).loadFragment(CameraFragment())
         }
 
         // Initialize the output directory and the Camera Executor
