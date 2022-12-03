@@ -61,4 +61,5 @@
     <string name="observation_time">Time</string>
     <string name="observation_description">Describe what you saw...</string>
     <string name="alt_send_button">Send</string>
+    <string name="alt_thumbnail_delete">Delete</string>
 </resources>

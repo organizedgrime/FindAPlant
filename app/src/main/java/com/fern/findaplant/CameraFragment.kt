@@ -6,12 +6,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -128,14 +129,45 @@ class CameraFragment : Fragment() {
     }
 
     private fun addThumbnail(uri: Uri) {
+        // Make the post button visible
         binding.postButton.visibility = View.VISIBLE
-        val thumbnailView = ImageView(context)
+        // Determine bitmap width and height
         val density = requireContext().resources.displayMetrics.density
-        val bitmapWidth = (100 * density).toInt()
-        thumbnailView.layoutParams = LinearLayout.LayoutParams(bitmapWidth, bitmapWidth)
+        val thumbWidth = (100 * density).toInt()
+        val buttonWidth = (30 * density).toInt()
+        // Create a new frame layout
+        val frameView = FrameLayout(requireContext())
+        // Set the dimensions
+        frameView.layoutParams = FrameLayout.LayoutParams(thumbWidth, thumbWidth)
+
+        // Create the image view
+        val thumbnailView = ImageView(context)
         thumbnailView.setImageURI(uri)
         thumbnailView.scaleType = ImageView.ScaleType.CENTER_CROP
-        binding.thumbnailContainer.addView(thumbnailView)
+
+        val deleteButton = ImageView(context)
+        deleteButton.setImageResource(R.drawable.ic_outline_delete_24)
+        val params = FrameLayout.LayoutParams(buttonWidth, buttonWidth)
+        params.gravity = Gravity.RIGHT
+        deleteButton.layoutParams = params
+        deleteButton.setOnClickListener {
+            Log.i(TAG, "Deleting this image")
+            // Remove the last uri we added
+            paths.removeLast()
+            binding.thumbnailContainer.removeView(deleteButton.parent as View)
+            if (paths.isEmpty()) {
+                // Make the post button invisible again
+                binding.postButton.visibility = View.INVISIBLE
+            }
+        }
+        deleteButton.setBackgroundColor(resources.getColor(R.color.red))
+
+        // Add them both to the frame layout
+        frameView.addView(thumbnailView)
+        frameView.addView(deleteButton)
+
+        // Add the frame layout
+        binding.thumbnailContainer.addView(frameView)
     }
 
     private fun updatePostButton() {
