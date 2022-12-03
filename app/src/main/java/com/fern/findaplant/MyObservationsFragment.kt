@@ -8,19 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.fern.findaplant.adaptors.ObservationAdapter
-import com.fern.findaplant.databinding.FragmentObservationsBinding
+import com.fern.findaplant.databinding.FragmentMyObservationsBinding
 import com.fern.findaplant.models.User
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class ObservationsFragment : Fragment(),
+class MyObservationsFragment : Fragment(),
     ObservationAdapter.OnObservationSelectedListener{
 
     private lateinit var query: Query
     //private lateinit var theDetailedView: DetailObservationBinding
-    private lateinit var binding: FragmentObservationsBinding
+    private lateinit var binding: FragmentMyObservationsBinding
     private lateinit var adapter: ObservationAdapter
 
     override fun onCreateView(
@@ -28,7 +28,7 @@ class ObservationsFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         //
-        binding = FragmentObservationsBinding.inflate(layoutInflater)
+        binding = FragmentMyObservationsBinding.inflate(layoutInflater)
         //binding.recyclerObservations.setOnClickListener(onObservationSelected(binding.recyclerObservations.))
 
         //theDetailedView  = DetailObservationBinding.inflate(layoutInflater)
@@ -64,7 +64,7 @@ class ObservationsFragment : Fragment(),
 
     private fun loadAdapter(user: User, query: Query) {
         // Create Adapter for RecyclerView
-        adapter = object : ObservationAdapter(user, query, this@ObservationsFragment) {
+        adapter = object : ObservationAdapter(user, query, this@MyObservationsFragment) {
             override fun onDataChanged() {
                 // If there are no Observations
                 if (itemCount == 0) {

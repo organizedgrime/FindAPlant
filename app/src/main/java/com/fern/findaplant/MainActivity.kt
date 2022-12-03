@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(BookmarkFragment())
                 }
                 R.id.observations -> {
-                    loadFragment(ObservationsFragment())
+                    loadFragment(MyObservationsFragment())
                 }
                 R.id.camera -> {
                     loadFragment(CameraFragment())
