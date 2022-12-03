@@ -62,4 +62,6 @@
     <string name="observation_description">Describe what you saw...</string>
     <string name="alt_send_button">Send</string>
     <string name="alt_thumbnail_delete">Delete</string>
+    <string name="alt_search_button">Search</string>
+    <string name="prompt_observation">Organism name...</string>
 </resources>

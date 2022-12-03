@@ -7,33 +7,38 @@
     android:orientation="vertical"
     tools:context=".SearchFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Organism Name Here" />
+            android:hint="@string/prompt_observation" />
 
         <ImageButton
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_search_24"
-            android:contentDescription="Search Button" />
-    </LinearLayout>
+            android:contentDescription="@string/alt_search_button" />
+    </FrameLayout>
+
+    <!-- Main Observations recycler -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerObservations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_observation" />
 
     <TextView
+        android:id="@+id/noneLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is where search results will go" />
+        android:text="@string/observations_none"
+        android:textSize="40sp" />
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </LinearLayout>
