@@ -144,9 +144,11 @@ class NewPostFragment : Fragment() {
     private fun obtainLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                coordinate = GeoPoint(location!!.latitude, location.longitude)
-                // Update the coordinate label
-                binding.coordinateLabel.text = coordinate.toString()
+                if (location != null) {
+                    coordinate = GeoPoint(location.latitude, location.longitude)
+                    // Update the coordinate label
+                    binding.coordinateLabel.text = coordinate.toString()
+                }
             }
     }
 

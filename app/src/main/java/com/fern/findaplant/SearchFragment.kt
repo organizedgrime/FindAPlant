@@ -49,7 +49,7 @@ class SearchFragment : Fragment(),
                 if (queryString.isNotEmpty()) {
                     val query = Firebase.firestore
                         .collection("observations")
-                        .whereGreaterThan("commonName", queryString)
+                        .whereGreaterThanOrEqualTo("commonName", queryString)
 
                     // Load the adapter using this query
                     loadAdapter(user, query)
