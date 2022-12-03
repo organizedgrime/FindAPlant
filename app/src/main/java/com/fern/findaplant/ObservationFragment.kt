@@ -11,6 +11,7 @@ import com.fern.findaplant.databinding.FragmentObservationBinding
 import com.fern.findaplant.models.Observation
 import com.fern.findaplant.models.User
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -27,9 +28,7 @@ class ObservationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentObservationBinding.inflate(layoutInflater)
-
         val observationID = requireArguments().getString("observationID")!!
-
         Firebase.firestore
             .collection("observations")
             .document(observationID)
@@ -40,11 +39,45 @@ class ObservationFragment : Fragment() {
                     Log.i(TAG, "Updating late init Observation")
                     // Construct an Observation object from the Snapshot
                     observation = requireNotNull(documentSnapshot.toObject<Observation>())
+                    listenForUser()
                     updateBindings()
                 }
             }
 
         return binding.root
+    }
+
+    private fun listenForUser() {
+        // Listen for user document changes
+        (context as MainActivity).viewModel.user.observe(viewLifecycleOwner) { user ->
+            // Assign visibility based on the membership to the bookmarks array
+            binding.bookmarked.visibility =
+                if (user.bookmarks.map { it.id }.contains(observation.id)) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+
+            // When the bookmark button is clicked
+            binding.bookmarkButton.setOnClickListener {
+                // DocumentReference of the Observation clicked
+                val reference = Firebase.firestore
+                    .collection("observations")
+                    .document(observation.id!!)
+
+                val newDoc: Map<String, Any> = if (user.bookmarks.contains(reference)) {
+                    hashMapOf("bookmarks" to FieldValue.arrayRemove(reference))
+                } else {
+                    hashMapOf("bookmarks" to FieldValue.arrayUnion(reference))
+                }
+
+                // Update the user document to reflect this
+                Firebase.firestore
+                    .collection("users")
+                    .document(Firebase.auth.currentUser!!.uid)
+                    .update(newDoc)
+            }
+        }
     }
 
     // Using a new version of the observation, update all bindings
