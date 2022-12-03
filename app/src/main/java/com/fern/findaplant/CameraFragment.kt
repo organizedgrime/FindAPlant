@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -27,7 +29,7 @@ class CameraFragment : Fragment() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var camera: Camera? = null
-
+    private var paths: ArrayList<String> = arrayListOf()
     private lateinit var cameraSelector: CameraSelector
     private lateinit var safeContext: Context
     private lateinit var outputDirectory: File
@@ -112,15 +114,35 @@ class CameraFragment : Fragment() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
-
-                    // Represent as list
-                    val paths = arrayListOf<String>(photoFile.path)
-
-                    // Open the New Post Fragment with the associated uri
-                    (context as MainActivity).loadFragment(NewPostFragment.newInstance(paths))
+                    // Add path to paths array
+                    paths.add(photoFile.path)
+                    // Update the next directory
+                    outputDirectory = getOutputDirectory()
+                    // Add the thumbnail
+                    addThumbnail(savedUri)
+                    // Update what the post button does
+                    updatePostButton()
                 }
             }
         )
+    }
+
+    private fun addThumbnail(uri: Uri) {
+        binding.postButton.visibility = View.VISIBLE
+        val thumbnailView = ImageView(context)
+        val density = requireContext().resources.displayMetrics.density
+        val bitmapWidth = (100 * density).toInt()
+        thumbnailView.layoutParams = LinearLayout.LayoutParams(bitmapWidth, bitmapWidth)
+        thumbnailView.setImageURI(uri)
+        thumbnailView.scaleType = ImageView.ScaleType.CENTER_CROP
+        binding.thumbnailContainer.addView(thumbnailView)
+    }
+
+    private fun updatePostButton() {
+        binding.postButton.setOnClickListener {
+            // Open the New Post Fragment with the associated uri
+            (context as MainActivity).loadFragment(NewPostFragment.newInstance(paths))
+        }
     }
 
     // Change between front and back Camera
