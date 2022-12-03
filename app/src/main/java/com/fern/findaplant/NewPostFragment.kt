@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.fern.findaplant.databinding.FragmentNewPostBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -19,7 +20,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NewPostFragment : Fragment() {
+    private var imageIndex = 0
 
+    private lateinit var uris: List<Uri>
     private lateinit var binding: FragmentNewPostBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mainViewModel: MainActivityViewModel
@@ -44,10 +47,23 @@ class NewPostFragment : Fragment() {
         // Extract file paths
         val paths = requireArguments().getStringArrayList("paths")!!
         // Represent as URIs
-        val uris = paths.map { Uri.fromFile(File(it)) }
-
+        uris = paths.map { Uri.fromFile(File(it)) }
         // Update the image to be the first
-        binding.observationImage.setImageURI(uris[0])
+        loadCurrentImage()
+
+        binding.nextImage.setOnClickListener {
+            if (imageIndex < uris.size - 1) {
+                imageIndex += 1
+                loadCurrentImage()
+            }
+        }
+        binding.previousImage.setOnClickListener {
+            if (imageIndex > 0) {
+                imageIndex -= 1
+                loadCurrentImage()
+            }
+        }
+
         // Update the time label
         binding.timeLabel.text = Date().toString()
 
@@ -65,6 +81,8 @@ class NewPostFragment : Fragment() {
                         "photos" to urls,
                         "coordinate" to coordinate,
                         "timestamp" to Timestamp(Date()),
+                        "commonName" to binding.commonName.text.toString(),
+                        "scientificName" to binding.scientificName.text.toString(),
                         "description" to binding.description.text.toString()
                     )
 
@@ -79,6 +97,14 @@ class NewPostFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun loadCurrentImage() {
+        // If there is at least one image to display in the observation
+        if (uris.isNotEmpty()) {
+            // Load current image
+            binding.currentImage.setImageURI(uris[imageIndex])
+        }
     }
 
     //Don't forget to ask for permissions for ACCESS_COARSE_LOCATION

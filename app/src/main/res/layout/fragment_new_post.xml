@@ -9,23 +9,47 @@
     android:padding="10dp">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/imageControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/previousImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:tint="@color/green_900"
+            android:contentDescription="TODO" />
+
+        <ImageView
+            android:id="@+id/currentImage"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/alt_observation_image" />
+
+        <ImageView
+            android:id="@+id/nextImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            app:tint="@color/green_900"
+            android:contentDescription="TODO" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/formLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green_100"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/observationImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_baseline_image_24"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/alt_observation_image" />
+        app:layout_constraintTop_toBottomOf="@+id/imageControls">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,6 +92,22 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/commonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/observation_common"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/scientificName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/observation_scientific"
+            android:inputType="text" />
+
+        <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,10 +122,10 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_send_24"
+        android:src="@drawable/ic_baseline_upload_24"
         app:tint="@color/green_900"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/formLayout"
         android:contentDescription="@string/alt_send_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

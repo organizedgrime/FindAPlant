@@ -65,4 +65,6 @@
     <string name="alt_search_button">Search</string>
     <string name="prompt_observation">Organism name...</string>
     <string name="alt_observation_delete">Delete</string>
+    <string name="observation_common">Common Name</string>
+    <string name="observation_scientific">Scientific Name</string>
 </resources>

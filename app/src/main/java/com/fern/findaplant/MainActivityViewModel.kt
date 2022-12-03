@@ -124,8 +124,6 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
         map: MutableMap<String, Any>,
         onSuccess: () -> Unit
     ) {
-        map["commonName"] = "commonName template"
-        map["scientificName"] = "scientificName template"
         map["observer"] = Firebase.firestore.collection("users").document(user.value?.id!!)
 
         // Finally, create a new document in the `observations` collection using it
