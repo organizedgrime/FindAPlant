@@ -54,28 +54,7 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             }
         }
     }
-
-    fun uploadPhoto(path: String, uri: Uri, onSuccess: (url: String) -> Unit) {
-        Firebase.storage.reference
-            .child(path)
-            .putFile(uri)
-            .onSuccessTask {
-                // Obtain the URL for the image we just uploaded
-                Firebase.storage.reference
-                    .child(path)
-                    .downloadUrl
-            }
-            .addOnCompleteListener { url ->
-                if (url.isSuccessful) {
-                    // Run the callback
-                    onSuccess(url.toString())
-                }
-                else {
-                    Log.w(TAG, "Failed to upload new photo to Storage")
-                }
-            }
-    }
-
+    
     // Upload multiple photos at once
     fun uploadPhotos(basePath: String, uris: List<Uri>, onSuccess: (urls: List<String>) -> Unit) {
         val children = List(uris.size) { index ->

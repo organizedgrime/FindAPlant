@@ -155,8 +155,8 @@ class FirestoreFragment : Fragment() {
                 // Upload Task with upload to directory 'file'
                 // and name of the file remains same
                 (context as MainActivity).viewModel
-                    .uploadPhoto("users/${Firebase.auth.currentUser!!.uid}", selectedImage) { url ->
-                        context.viewModel.updateProfilePicture(url)
+                    .uploadPhotos("users/${Firebase.auth.currentUser!!.uid}", listOf(selectedImage)) { urls ->
+                        context.viewModel.updateProfilePicture(urls[0])
                     }
             }
         }
