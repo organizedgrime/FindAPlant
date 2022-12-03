@@ -102,6 +102,22 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             }
     }
 
+    fun deletePhotos(basePath: String, count: Int, onSuccess: () -> Unit) {
+        // Create a list of Tasks based on URIs and path
+        val tasks = List(count) { index ->
+            Firebase.storage.reference
+                .child("$basePath/$index")
+                .delete()
+        }
+
+        // Wait for the upload tasks complete
+        whenAllSuccess<Void>(tasks)
+            .addOnSuccessListener { void ->
+                // Call onSuccess
+                onSuccess()
+            }
+    }
+
     // Updates the Firestore User Document with a new profile picture
     fun updateProfilePicture(newURL: String) {
         val userDoc: Map<String, Any> = hashMapOf(

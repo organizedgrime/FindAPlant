@@ -92,9 +92,14 @@ class ObservationFragment : Fragment() {
                     //
                     (context as MainActivity).viewModel.deleteObservation(observation.id!!) {
                         Log.i(TAG, "DELETED observation!")
-                        // TODO make this aware of previous frag
-                        (context as MainActivity).loadFragment(MyObservationsFragment())
+                        (context as MainActivity).viewModel.deletePhotos("observations/${observation.id!!}", observation.photos.size) {
+                            Log.i(TAG, "DELETED observation photos from Storage!")
+                            // TODO make this aware of previous frag
+                            (context as MainActivity).loadFragment(MyObservationsFragment())
+                        }
                     }
+
+
                 }
             }
         }
