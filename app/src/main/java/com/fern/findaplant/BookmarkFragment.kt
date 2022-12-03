@@ -74,7 +74,7 @@ class BookmarkFragment : Fragment(),
 
             override fun onError(e: FirebaseFirestoreException) {
                 Toast.makeText(
-                    requireContext(),
+                    context,
                     "Error: check logs for info.",
                     Toast.LENGTH_LONG
                 ).show()
