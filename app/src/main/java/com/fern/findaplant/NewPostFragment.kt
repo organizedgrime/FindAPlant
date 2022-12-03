@@ -102,10 +102,11 @@ class NewPostFragment : Fragment() {
         Log.i(TAG, "New observation id is $observationID")
 
         binding.sendButton.setOnClickListener {
+            // Make the spinning animation visible
+            binding.progressBar.visibility = View.VISIBLE
+
             // Upload the photo associated with it
             mainViewModel
-                // TODO replace this with a function that will allow us
-                //  to upload multiple photos at once
                 .uploadPhotos("observations/$observationID", uris) { urls ->
                     // Construct a map
                     val map: MutableMap<String, Any> = hashMapOf(

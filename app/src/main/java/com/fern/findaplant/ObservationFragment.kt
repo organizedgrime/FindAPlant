@@ -94,8 +94,8 @@ class ObservationFragment : Fragment() {
                         Log.i(TAG, "DELETED observation!")
                         (context as MainActivity).viewModel.deletePhotos("observations/${observation.id!!}", observation.photos.size) {
                             Log.i(TAG, "DELETED observation photos from Storage!")
-                            // TODO make this aware of previous frag
-                            (context as MainActivity).loadFragment(MyObservationsFragment())
+                            // Return to previous fragment
+                            parentFragmentManager.popBackStack()
                         }
                     }
 
