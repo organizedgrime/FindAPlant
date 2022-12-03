@@ -174,9 +174,17 @@ class FirestoreFragment : Fragment() {
 
     private fun saveData() {
         Log.i(TAG, "Updating UserDoc in firestore")
+        // Default User Document
         val userDoc: Map<String, Any> = hashMapOf(
-
+            "name" to binding.name.text.toString(),
+            "userName" to binding.userName.text.toString()
         )
+
+        // Set the UserDoc in the Firestore database
+        Firebase.firestore
+            .collection("users")
+            .document(Firebase.auth.currentUser!!.uid)
+            .update(userDoc)
     }
 
     private fun signUp() {
@@ -185,7 +193,6 @@ class FirestoreFragment : Fragment() {
             "name" to binding.name.text.toString(),
             "userName" to binding.userName.text.toString(),
             "bookmarks" to arrayListOf<DocumentReference>(),
-            // TODO: Keep track of URL string for an uploaded picture
             "profilePicture" to ""
         )
 
