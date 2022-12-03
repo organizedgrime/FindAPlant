@@ -8,102 +8,112 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <LinearLayout
-        android:id="@+id/imageControls"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/previousImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            app:tint="@color/green_900"
-            android:contentDescription="TODO" />
-
-        <ImageView
-            android:id="@+id/currentImage"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/alt_observation_image" />
-
-        <ImageView
-            android:id="@+id/nextImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_arrow_forward_24"
-            app:tint="@color/green_900"
-            android:contentDescription="TODO" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/organismName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageControls">
-
-        <TextView
-            android:id="@+id/commonName"
+        <LinearLayout
+            android:id="@+id/imageControls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            tools:text="Common Name of Organism" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/scientificName"
+            <ImageView
+                android:id="@+id/previousImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/green_900"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:id="@+id/currentImage"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/alt_observation_image" />
+
+            <ImageView
+                android:id="@+id/nextImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_arrow_forward_24"
+                app:tint="@color/green_900"
+                android:contentDescription="TODO" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/organismName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            tools:text="Scientific Name" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageControls">
 
-    <TextView
-        android:id="@+id/metadata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Observer "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/organismName"/>
+            <TextView
+                android:id="@+id/commonName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                tools:text="Common Name of Organism" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metadata"
-        tools:text="Description" />
+            <TextView
+                android:id="@+id/scientificName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                tools:text="Scientific Name" />
+        </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/bookmarkButton"
+        <TextView
+            android:id="@+id/metadata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Observer "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/organismName"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/metadata"
+            tools:text="Description" />
+
+        <FrameLayout
+            android:id="@+id/bookmarkButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_bookmark_border_24"
+                app:tint="@color/green_900"
+                android:contentDescription="@string/menu_bookmark" />
+
+            <ImageView
+                android:id="@+id/bookmarked"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_bookmark_24"
+                app:tint="@color/green_900"
+                android:contentDescription="@string/menu_bookmark" />
+        </FrameLayout>
+
+    <ImageView
+        android:id="@+id/deleteButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:src="@drawable/ic_outline_delete_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bookmarkButton"
+        android:contentDescription="@string/alt_observation_delete"
+        android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_bookmark_border_24"
-            app:tint="@color/green_900"
-            android:contentDescription="@string/menu_bookmark" />
-
-        <ImageView
-            android:id="@+id/bookmarked"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_bookmark_24"
-            app:tint="@color/green_900"
-            android:contentDescription="@string/menu_bookmark" />
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

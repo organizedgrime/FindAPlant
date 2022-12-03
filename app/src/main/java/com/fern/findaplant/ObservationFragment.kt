@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.fern.findaplant.databinding.FragmentObservationBinding
 import com.fern.findaplant.models.Observation
 import com.fern.findaplant.models.User
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -48,6 +49,22 @@ class ObservationFragment : Fragment() {
 
     // Using a new version of the observation, update all bindings
     private fun updateBindings() {
+        // If we are the observer of this Observation
+        if (observation.observer?.id == Firebase.auth.currentUser?.uid) {
+            // Make the delete button visible
+            binding.deleteButton.visibility = View.VISIBLE
+            // Link it to an action
+            binding.deleteButton.setOnClickListener {
+                if (observation.id != null) {
+                    //
+                    (context as MainActivity).viewModel.deleteObservation(observation.id!!) {
+                        Log.i(TAG, "DELETED observation!")
+                        // TODO make this aware of previous frag
+                        (context as MainActivity).loadFragment(MyObservationsFragment())
+                    }
+                }
+            }
+        }
         binding.commonName.text = observation.commonName
         binding.scientificName.text = observation.scientificName
         binding.metadata.text = "this is metadata info including the observer time and location"

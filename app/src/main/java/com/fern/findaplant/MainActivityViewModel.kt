@@ -142,6 +142,18 @@ class MainActivityViewModel: ViewModel(), DefaultLifecycleObserver {
             }
     }
 
+    fun deleteObservation(observationID: String, onSuccess: () -> Unit) {
+        Firebase.firestore
+            .collection("observations")
+            .document(observationID)
+            .delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess()
+                }
+            }
+    }
+
     companion object {
         const val TAG = "MainActivityViewModel"
     }
